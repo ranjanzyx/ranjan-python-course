@@ -66,7 +66,7 @@
     - **Spotify:** Leveraging Python for backend services and data analysis to enhance user experience and music recommendations.
 
 ## Course Overview:
-- This Python programming course is designed for beginners, aiming at providing in-depth programming skills for a variety of job roles.
+- This Python programming course is designed for beginners.
 - The duration of the course is **30 days**, with daily **1-hour** sessions.
 - The curriculum is divided into six weeks, each exploring a different aspects of Python programming.
     - **Week 1:** Introduction and Basics
@@ -75,9 +75,10 @@
     - **Week 4:** Object-Oriented Programming
     - **Week 5:** Advanced Topics and Introduction to Testing
     - **Week 6:** Introduction to Django & Development of Mini Project
-
-
-- <b>[Detailed Course Structure](course.md)</b>
+    - <b>[Detailed Course Structure](course.md)</b>
+- We will be using **Python 3.12.1**, the latest version of Python. 
+- We will be using **PyCharm** as our Integrated Development Environment (IDE) for writing and testing our Python code. 
+    
 
 ## Daily Session Breakdown:
 This Python programming course is meticulously designed to ensure a balanced learning experience. Each 1-hour session is strategically divided to maximize learning and interaction.
@@ -98,9 +99,3 @@ This Python programming course is meticulously designed to ensure a balanced lea
     - As we progress to the data science modules of our course, we will start using [Google Colab](https://colab.google/). 
     - This platform allows for hands-on experimentation in a cloud-based environment. 
     - This is ideal for practicing data science concepts without the need for complex setup or high-end hardware.
-
-
-## Support and Community:
-- [Python.org Community Forums](https://www.python.org/community/forums/): The official community forum for Python enthusiasts to discuss topics and share knowledge Python.org Forums.
-- [PySlackers](https://pyslackers.com/web): An inclusive community of Python programming enthusiasts with resources available mainly on Slack PySlackers.
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/python): The official community of StackOverflow for python queries
