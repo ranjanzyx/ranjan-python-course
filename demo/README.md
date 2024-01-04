@@ -1,9 +1,10 @@
 ## Why Python?
 - **Easy to Read and Learn:** Python is english-like language, clear and intuitive - ideal language for beginners.
-- **Versatile:** Python's applications are vast, ranging from web development to data science, automation etc.
 - **Efficient Development:** Python's frameworks and libraries simplify and speed up the development process.
-- **Popular**: Python is the most popular language, as of date.
->  .
+- **Cross-Platform Compatibility:** Python programs are generally written in a way that they can be run on any operating system without modification
+- **Versatile:** Python's applications are vast, ranging from web development to data science, automation etc.
+- **Popular**: Python's consistent evolution and its community-driven development have made it a popular choice for programmers.
+
 <img src="imgs/img.png" alt="Image Alt Text" width="500" />
 <br><br>
  
@@ -58,36 +59,35 @@
     - **Dropbox:** Built with Python to manage file storage and synchronization services.
     - **Spotify:** Leveraging Python for backend services and data analysis to enhance user experience and music recommendations.
 
-## Course Overview:
-- This Python programming course is designed for beginners.
-- The duration of the course is **30 days**, with daily **1-hour** sessions.
-- The curriculum is divided into six weeks, each exploring a different aspects of Python programming.
-    - **Week 1:** Introduction and Basics
-    - **Week 2:** Data Structures and Functions
-    - **Week 3:** Intermediate Concepts and Debugging
-    - **Week 4:** Object-Oriented Programming
-    - **Week 5:** Advanced Topics and Introduction to Testing
-    - **Week 6:** Introduction to Django & Development of Mini Project
-    - <b>[Detailed Course Structure](course.md)</b>
-- We will be using **Python 3.12.1**, the latest version of Python. 
-- We will be using **PyCharm** as our Integrated Development Environment (IDE) for writing and testing our Python code. 
-    
 
-## Daily Session Breakdown:
-1. **Initial 10 Minutes** - Discussion on the previous day assignments
-2. **Main 40 Minutes** - Core Learning for the day
-3. **Final 10 Minutes** - QnA and next day assignments discussion
+## Exploring Web Development with Python
 
+![img.png](imgs/web_architecture_1.png)
 
-## Collaboration Tools:
-1. **Course Material Distribution via GitHub:**
-    - GitHub will be our primary platform for sharing course materials. 
-    - After each session, I will upload the day's materials to GitHub.
-    - You can access these materials any time [GitHub - Python Course](https://github.com/ranjanzyx/ranjan-python-course).
-2. **Utilizing Slack for Peer-to-Peer Interaction:**
-    - Our designated Slack group will act as a self-help community. 
-    - We can post queries, engage in discussions, and assist each other with challenges. 
-3. **Google Colab for Practical Data Science Exploration:**
-    - As we progress to the data science modules of our course, we will start using [Google Colab](https://colab.google/). 
-    - This platform allows for hands-on experimentation in a cloud-based environment. 
-    - This is ideal for practicing data science concepts without the need for complex setup or high-end hardware.
+![web_architecture.png](imgs/web_architecture_2.png)
+
+### User Interaction with the Website (Front-End):
+
+- Users interact with the website through the front-end, which includes elements like buttons, forms, and navigation menus.
+- Python's Role: Python is not commonly used for front-end development, it can serve data to front-end technologies and handle requests through frameworks like Django and Flask.
+### Request to Web Server:
+- Description: When a user performs an action (like clicking a button), a request is sent to the web server.
+- Python's Role: Python-based web frameworks (**Django, Flask**) can be used to create web servers that receive and process these requests.
+### Server-Side Logic (Back-End):
+- The server processes the request, which may involve executing business logic, handling user inputs, or interacting with a database.
+- Python's Role: Key Python frameworks and libraries include:
+  - **Django**: A high-level Python web framework that encourages rapid development.
+  - **Flask:** A micro web framework for Python making it ideal for smaller applications and microservices.
+  - **FastAPI:** A modern, fast (high-performance) web framework for building APIs.
+### Database Interaction:
+- The server may need to retrieve or store data in a database based on the user's request.
+- Python's Role: Python can interact with databases using libraries like **SQLAlchemy** or **Django ORM**, performing operations like querying or updating data.
+### Integration with External APIs:
+- The server might also interact with external services or APIs for additional functionalities, such as payment processing or fetching external data.
+- Python's Role: Libraries like **requests** are commonly used for making HTTP requests to APIs in a straightforward manner. For more complex interactions, libraries such as **urllib3** or **httpx** offer advanced features.
+### Processing and Response:
+- After processing the request, the server sends a response back to the user's browser, which may include data to be rendered on the front-end.
+- Python's Role: Django framework offers a comprehensive solution with its built-in **HttpResponse** class in the **django.http** module, which is used to manage responses. 
+### Data Analysis and Machine Learning (If Applicable):
+- Websites often collect data that can be used for analytics or machine learning purposes.
+- Python's Role: Python shines in data analysis and machine learning with libraries like **Pandas, NumPy,** and frameworks like **TensorFlow,** enabling advanced functionalities like personalized recommendations.
