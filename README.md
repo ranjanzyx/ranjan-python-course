@@ -1,24 +1,20 @@
 ## Why Python?
-- **Easy to Read and Learn:** 
-  - Python's syntax is clear and intuitive, 
-  - English-like - ideal language for beginners.
-- **Versatile:** 
-  - From web development to data science, Python's applications are vast.
-- **Strong Community Support:** 
-  - A robust and active community means abundant resources and libraries.
-- **Efficient Development:** 
-  - Python's frameworks and libraries simplify and speed up the development process.
-- **Popular**
+- **Easy to Read and Learn:** Python is english-like language, clear and intuitive - ideal language for beginners.
+- **Versatile:** Python's applications are vast, ranging from web development to data science, automation etc.
+- **Efficient Development:** Python's frameworks and libraries simplify and speed up the development process.
+- **Popular**: Python is the most popular language, as of date.
 >  .
 <img src="imgs/img.png" alt="Image Alt Text" width="500" />
 <br><br>
+ 
+## Uses of Python
 - **Automation:**
   - **Scripting Daily Tasks:** 
     - Automating routine tasks like file organization, sending emails, or data entry.
     - _Google_ uses automated scripts written in Python to crawl the web and indexing pages for the Google Search engine.
   - **Web Scraping:** 
     - Extracting data from websites using libraries like BeautifulSoup etc.
-    - _BuzzFeed_ has used Python for scraping web data to gather information for their news stories.
+    - _BuzzFeed_ uses Python for scraping web data to gather information for their news stories.
   - **Automated Testing:** 
     - Writing scripts for automated testing of software applications with frameworks like pytest.
     - _Netflix_ uses Python for automated testing of their application, ensuring reliability and performance.
@@ -30,22 +26,19 @@
     - _Pinterest_ uses Django, a Python framework, for website development.
   - **Microservices:** 
     - Developing microservices architectures with Flask or FastAPI.
-    - _Uber_ employs Python to develop various microservices that power its complex transportation platform.
+    - _Uber_ uses Python to develop various microservices that power its complex transportation platform.
   - **API Development:** 
     - Building RESTful APIs for web services.
     - _Stripe_ uses Python for building powerful and efficient APIs for online payment processing.
 
 
-- **Data Analysis and Visualization:**
+- **Data Wrangling and Visualization:**
     - **Data Wrangling:** 
       - Manipulating and preparing data using Pandas.
       - _The New York Times_ uses Python, particularly Pandas, for data analysis and journalistic research.
     - **Data Visualization:** 
       - Creating visual data representations with tools like Matplotlib and Seaborn.
       - _The Jet Propulsion Laboratory (NASA)_ uses Python for visualizing data from space missions.
-    - **Statistical Analysis:** 
-      - Performing statistical analysis and modeling with SciPy and NumPy.
-      - The financial sector, including companies like _JPMorgan Chase_, utilizes Python for complex financial modeling and risk management.
 
 
 - **AI and Machine Learning:**
@@ -81,10 +74,9 @@
     
 
 ## Daily Session Breakdown:
-This Python programming course is meticulously designed to ensure a balanced learning experience. Each 1-hour session is strategically divided to maximize learning and interaction.
 1. **Initial 10 Minutes** - Discussion on the previous day assignments
 2. **Main 40 Minutes** - Core Learning for the day
-3. **Final 10 Minutes** - QnA and next day assignment discussion
+3. **Final 10 Minutes** - QnA and next day assignments discussion
 
 
 ## Collaboration Tools:
