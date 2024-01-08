@@ -91,3 +91,49 @@
 ### Data Analysis and Machine Learning (If Applicable):
 - Websites often collect data that can be used for analytics or machine learning purposes.
 - Python's Role: Python shines in data analysis and machine learning with libraries like **Pandas, NumPy,** and frameworks like **TensorFlow,** enabling advanced functionalities like personalized recommendations.
+
+
+## History of Python
+- Python was created by **Guido van Rossum** and first released in 1991.
+- Over the years, Python has evolved significantly, with major milestones including:
+  1. **Python 1.0:** Introduced in January 1994, including exceptions, functions, and modules.
+  2. **Python 2.0:** Released in October 2000, this version added new features like list comprehensions and garbage collection.
+  3. **Python 3.0:** 
+     - Released in December 2008, known as Python 3000 or Py3k, this was a major revision designed to rectify fundamental design flaws in the language. 
+     - Python 3 is not backward compatible with Python 2.
+     - Python's consistent evolution and its community-driven development have made it a popular choice for programmers.  
+
+### Difference between Python 2.x and 3.x
+- Python 2.x and Python 3.x are two major versions of the Python programming language. 
+- While they share a lot in common, there are some key differences between them:
+
+1. **Print Statement vs. Print Function:**
+   - Python 2.x uses the print statement, whereas Python 3.x uses the print() function. 
+   - In Python 2.x, you can write print "Hello, World!", while in Python 3.x, it should be print("Hello, World!").
+2. **Division Behavior:**
+   - In Python 2.x, the division of two integers results in integer division (floor division). 
+   - In Python 3.x, it results in floating-point division. To achieve integer division in Python 3.x, you can use the // operator.
+3. **Unicode Strings:**
+   - Python 3.x uses Unicode for string handling by default, whereas Python 2.x uses ASCII. 
+   - This makes working with non-ASCII characters and internationalization easier in Python 3.x.
+4. **Range vs. xrange:**
+   - In Python 2.x, there's a built-in xrange() function that generates values lazily, saving memory. 
+   - In Python 3.x, xrange() is removed, and the built-in range() behaves like xrange() from Python 2.x.
+5. **Exception Syntax:**
+   - Python 3.x requires parentheses for the except clause when catching exceptions. 
+   - In Python 2.x, it's optional.
+6. **String Encoding:**
+   - In Python 2.x, you often need to deal with encoding issues when working with text. 
+   - Python 3.x makes it easier by distinguishing between bytes and text.
+7. **Iterators and Lists:**
+   - Some functions and methods that returned lists in Python 2.x now return iterators in Python 3.x. 
+   - For example, range() in Python 3.x returns an iterator, while it returns a list in Python 2.x.
+
+
+## Interview-Specific Questions
+1. How does Python 3.x handle string encoding differently from Python 2.x, and why is this important?
+2. What is the major difference in division behavior between Python 2.x and Python 3.x? How can you achieve integer division in Python 3.x?
+3. Explain the change in exception handling syntax between Python 2.x and Python 3.x. Why was this change made?
+4. How does Python 3.x handle the print statement differently from Python 2.x? Provide an example of both.
+5. In Python 3.x, the xrange() function from Python 2.x is removed. How does the behavior of the range() function change in Python 3.x?
+6. How does Python 3.x improve memory efficiency when it comes to iterating over sequences compared to Python 2.x?
