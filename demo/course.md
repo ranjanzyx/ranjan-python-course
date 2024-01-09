@@ -37,7 +37,7 @@
 
 **Day 1:** Introduction to Python and Setting Up the Environment
 
-**Day 2:** Basic Syntax, Comments, and Data Types (int, float, string)
+**Day 2:** Understanding Python execution, Basic Syntax and Data Types (int, float, string, bool)
 
 **Day 3:** Variables, Basic Operators, and Input/Output
 
