@@ -17,9 +17,9 @@
   - String Concatenation: Combining string values using the + operator.
   - Function Calls: Calling a function and evaluating to its return value.
 ```python
-5 + 3 * 2  # Arithmetic expression
-"Hello, " + "world!"  # String expression
-len("Python")  # Function expressions
+5 + 3 * 2  # Evaluates to 11
+"Hello, " + "world!"  # Evaluates to "Hello, world!"
+len("Python")  # Evaluates to 6
 ```
 
 ### Statements
@@ -366,11 +366,33 @@ print("Name:", name, "Age:", age)
 1. **Create and Manipulate Variables:** Ask the user for their name and age, and then print a message using these variables.
 2. **Calculator:** Write a simple calculator that takes two numbers and an operator as input and performs the corresponding operation.
 
-**Interview Questions and Practical Scenarios**
+### Interview Questions and Practical Scenarios
 1. **Variable Naming Conventions:** Why can't a variable name start with a number in Python?
+   - Variable names in Python must adhere to specific naming conventions:
+   - Variable names can consist of letters (both uppercase and lowercase), digits, and underscores.
+   - However, a variable name must start with a letter (either uppercase or lowercase) or an underscore (_).
+   - It cannot start with a digit (0-9).
+   - This rule is in place to avoid confusion between variable names and numeric literals. 
+   - If Python allowed variable names to start with numbers, it would be challenging to distinguish between variables and actual numeric values.
 2. **Operator Precedence:** What is the order of operations when using multiple operators in a single expression?
+   - Python follows the "PEMDAS" or "BODMAS" rule, which stands for:
+     - **P (Parentheses/Brackets)**
+     - **E (Exponents/Power)**
+     - **MD (Multiplication and Division)**
+     - **AS (Addition and Subtraction)**
+     - **O (Other Operators):** Other operators, such as bitwise operators or logical operators, are evaluated after the above operations following their respective precedence and associativity rules.
+   - **Left to Right:** 
+     - If multiple operators of the same precedence level appear in the expression, they are evaluated from left to right (i.e., in the order they appear).
+   - `result = 3 + 4 * (2 ** 2) / 2 - 1`
+   - In this expression, the order of evaluation is as follows:
+     - Evaluate 2 ** 2, which results in 4.
+     - Evaluate the multiplication, 4 * 4, which results in 16.
+     - Evaluate the division, 16 / 2, which results in 8.
+     - Perform the addition, 3 + 8, which results in 11.
+     - Finally, subtract 1, 11 - 1, which results in the final value of 10.
 3. **Tricky Scenario:** What will be the output of print("5" + 3) and why?
-
-**Conclusion**
+   - The expression print("5" + 3) will result in a `TypeError` because you are attempting to concatenate a string ("5") with an integer (3) without converting one of them to the appropriate type. 
+   - Python doesn't perform implicit type conversion in this context.
+### Conclusion
 - Today, you've learned about variables, basic arithmetic, comparison, and logical operators, along with handling user input and producing output.
 - In our next session, we'll cover control flow with if, elif, else, and loops (for and while). This will bring us closer to writing more dynamic and interactive Python programs.
