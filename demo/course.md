@@ -39,9 +39,9 @@
 
 **Day 2:** Understanding Python execution, Basic Syntax and Data Types (int, float, string, bool)
 
-**Day 3:** Variables, Basic Operators, and Input/Output
+**Day 3:** Variables, Constants, Enums, Basic Operators, and Input/Output
 
-**Day 4:** Control Flow – if, elif, else, Loops – for and while
+**Day 4:** Control Flow – if, elif, else, Loops – for and while, and Exception Handling
 
 **Day 5:** Introduction to pip, libraries/modules, and Virtual Environments
 
