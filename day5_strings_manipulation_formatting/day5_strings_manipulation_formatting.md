@@ -221,3 +221,19 @@ print(normal_string)
 raw_string = r"This is a \n new line."
 print(raw_string)  # This is a \n new line.
 ```
+---
+### Assignments
+1. **Basic String Manipulation:**
+
+Create a Python program that takes a user input string and performs the following tasks:
+
+Print the length of the string.
+Convert the string to uppercase.
+Convert the string to lowercase.
+Print the string in reverse order.
+2. **String Formatting:**
+
+Write a program that prompts the user to enter their name, age, and favorite color. 
+Use string formatting to display a message like this:
+
+Hello, [Name]! You are [Age] years old, and your favorite color is [Color].
