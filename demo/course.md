@@ -43,7 +43,7 @@
 
 **Day 4:** Control Flow – if, elif, else, Loops – for and while, and Exception Handling
 
-**Day 5:** Introduction to pip, libraries/modules, and Virtual Environments
+**Day 5:** String Manipulation and Formatting
 
 ### Week 2: Data Structures and Functions
 
@@ -59,11 +59,11 @@
 
 ### Week 3: Intermediate Concepts and Debugging
 
-**Day 11:** String Manipulation and Formatting
+**Day 11:** Error and Exception Handling**
 
 **Day 12:** File I/O: Reading and Writing Files
 
-**Day 13**: Error and Exception Handling
+**Day 13**: Introduction to pip, libraries/modules, and Virtual Environments
 
 **Day 14**: Modules and Packages, working with external libraries (e.g., requests, NumPy) 
 

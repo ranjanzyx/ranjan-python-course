@@ -98,6 +98,57 @@ else:
 ```python
 message = "Good weather." if is_sunny else "Bad weather."
 ```
+### `match` Statement
+- In Python, the `match` statement is used for pattern matching, which is a way to perform conditional logic based on the shape or structure of data. 
+- It was introduced in **Python 3.10(October 2021)** as a new feature, and it provides a more concise way to write conditional code compared to if-elif-else statements.
+
+**Here's a basic explanation of how match works:**
+- The `match` statement is followed by an expression that you want to match against various patterns.
+- It consists of several case blocks, each with a pattern and an associated block of code to execute when the pattern matches the expression.
+- The match statement evaluates the expression and checks it against each case block's pattern in the order they are defined.
+- If a case pattern matches the expression, the code block associated with that case block is executed, and the match statement exits. 
+- If no pattern matches, and there is a case block with the pattern `_`, that block's code is executed as the default case. 
+- If there's no `_` block and no pattern matches, a MatchError is raised.
+
+```python
+match subject:
+    case pattern1:
+        # Action for pattern1
+    case pattern2:
+        # Action for pattern2
+    case _:
+        # Default action (like 'else')
+```
+```python
+def process_data(data):
+    match data:
+        case 1:
+            print("Data is 1")
+        case 2:
+            print("Data is 2")
+        case _:
+            print("Data is something else")
+
+data = 3
+process_data(data)
+```
+```python
+files = ['a.txt', 'b.pdf', 'c.jpg']
+
+for file in files:
+    extension = file.split('.')[-1]
+    print(extension)
+
+    match extension:
+        case 'txt':
+            print("Process txt file.")
+            # do actions on text file
+        case 'pdf':
+            print("Process pdf file.")
+            # do actions on pdf file
+        case _:
+            print("unknown file format")
+```
 ---
 ## Loops in Python
 
@@ -467,15 +518,116 @@ finally:
 - **Finally Block:** Use finally for clean-up actions that must be executed under all circumstances.
 
 ### Interview Questions on Exception Handling
-1. Explain the try-except-else-finally block in Python.
-2. What is the difference between errors and exceptions in Python?
-3. How can you catch multiple exceptions in a single except block?
-4. What is the use of the raise statement in Python?
+1. **Explain the try-except-else-finally block in Python.**
+- In Python, the `try-except-else-finally` block is used for handling exceptions (errors) and ensuring code execution under different circumstances. 
+- The `try` block contains code that might cause an exception, while the except block catches and handles the exception. 
+- The `else` block executes if the try block does not raise an exception, and 
+- the `finally` block executes regardless of whether an exception was raised or not, typically used for cleaning up resources.
+
+2. **What is the difference between errors and exceptions in Python?**
+- **Errors:**
+  - Definition: Errors are issues in a program that arise when there is something wrong with the code itself. They are mostly syntax or logical errors.
+  - Syntax Errors: These occur when the parser detects a syntactically incorrect statement. For example, missing a colon (:) at the end of an if statement.
+  - Logical Errors: These are errors that occur when the syntax is correct, but the code leads to incorrect results. They are often harder to find and debug because the interpreter does not point them out.
+  - Handling: Errors usually need to be corrected in the code. The program will not run until these errors are fixed.
+- **Exceptions:**
+  - Definition: Exceptions are errors detected during execution that are not unconditionally fatal. 
+  - They are typically caused by external factors or exceptional conditions that the program logic didn’t anticipate or can’t handle.
+  - Examples: File not found, division by zero, trying to access an element in a list that doesn’t exist, etc.
+  - Handling: Exceptions can be handled using try...except blocks. This allows the program to continue running even after an exception is encountered, by defining a way to handle the situation.
+
+3. **How can you catch multiple exceptions in a single except block?**
+  - In Python, you can catch multiple exceptions in a single except block by specifying the exception types as a tuple. This is useful when you want to handle different types of exceptions in the same way. Here's the general syntax:
+    ```python
+    try:
+      # Your code here
+    except (ExceptionType1, ExceptionType2, ExceptionType3) as e:
+      # Handle the exception
+      print(f"An error occurred: {e}")
+    ```
+- In this structure:
+  - The try block contains the code that might raise an exception.
+  - The except block specifies the exceptions to catch. ExceptionType1, ExceptionType2, ExceptionType3, etc., are different types of exceptions that you expect might occur.
+  - The as e part is optional. It assigns the exception object to the variable e, allowing you to work with it inside the except block. This is useful for error logging or providing detailed error messages.
+- Here's a practical example:
+- ```python
+  try:
+    result = 10 / 0
+    my_list = [1, 2, 3]
+    value = my_list[5]
+  except (ZeroDivisionError, IndexError) as e:
+    print(f"Caught an error: {e}")
+  ```
+- In this example, both a `ZeroDivisionError` and an `IndexError` are handled by the same except block, which will print a message with the error details.
+4. **What is the use of the raise statement in Python?**
+- In Python, the `raise` statement is used to **trigger an exception intentionally**. 
+- It allows a programmer to force a specified exception to occur, making it useful for signaling that a specific error condition has arisen in the program. 
 
 ### Assignments on Exception Handling
 1. Write a Python program using a while loop to find the factorial of a given number.
+```python
+# Given number
+number = 5
+
+# Check if the number is negative
+if number < 0:
+    factorial = "Factorial not defined for negative numbers"
+else:
+    factorial = 1
+    while number > 0:
+        factorial = factorial * number
+        number = number - 1
+
+# Result
+print(factorial)
+```
 2. Calculator App: Create a basic calculator app that handles exceptions like ZeroDivisionError and ValueError.
+```python
+try:
+    num1 = float(input("Enter first number: "))
+    num2 = float(input("Enter second number: "))
+    operation = input("Choose an operation (+, -, *, /): ")
+
+    if operation == '+':
+        result = num1 + num2
+    elif operation == '-':
+        result = num1 - num2
+    elif operation == '*':
+        result = num1 * num2
+    elif operation == '/':
+        result = num1 / num2  # Potential ZeroDivisionError
+    else:
+        print("Invalid operation. Please choose +, -, *, or /.")
+
+except ValueError:
+    print("Invalid input. Please enter a number.")
+except ZeroDivisionError:
+    print("Error: Division by zero is not allowed.")
+except Exception as e:
+    print(f"An error occurred: {e}")
+```
 3. Custom Exception: Define a custom exception and use it in a context that's relevant (like a login function raising InvalidPasswordException).
+```python
+# Define the custom exception
+class InvalidPasswordException(Exception):
+    def __init__(self, message="Invalid password provided"):
+        self.message = message
+        super().__init__(self.message)
+
+
+# Stored password for comparison
+correct_password = "abc"
+
+user_password = input("Enter your password: ")
+
+try:
+    if user_password != correct_password:
+        raise InvalidPasswordException("The entered password is incorrect.")
+    else:
+        print("Login successful.")
+except InvalidPasswordException as e:
+    print(f"Login failed: {e}")
+```
 
 ### Conclusion
 - Today, you've learned about flow mechanisms and exception handling
