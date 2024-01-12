@@ -231,6 +231,7 @@ Print the length of the string.
 Convert the string to uppercase.
 Convert the string to lowercase.
 Print the string in reverse order.
+
 2. **String Formatting:**
 
 Write a program that prompts the user to enter their name, age, and favorite color. 
