@@ -59,7 +59,7 @@
 
 ### Week 3: Intermediate Concepts and Debugging
 
-**Day 11:** Error and Exception Handling**
+**Day 11:** Introduction to Regex
 
 **Day 12:** File I/O: Reading and Writing Files
 
