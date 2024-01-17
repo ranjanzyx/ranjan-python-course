@@ -337,7 +337,6 @@ print(my_dict)  # This will raise NameError as my_dict no longer exists
 11. ### `dict.clear()`
 - Removes all the elements from the dictionary.
 ```python
-Copy code
 my_dict = {'name': 'Alice', 'age': 25}
 my_dict.clear()
 print(my_dict)  # Output: {}
