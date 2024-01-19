@@ -397,8 +397,136 @@ for outer_key, nested_dict in nested_dict.items():
         print(f"Outer Key: {outer_key}, Inner Key: {inner_key}, Value: {value}")
 ```
 ---
----
+## Understanding Hashability and Its Implications for Dictionary Keys in Python
+- Python dictionaries are versatile collections that store data in key-value pairs, offering rapid storage, retrieval, and deletion. 
+- The efficiency of these operations hinges on a concept known as **'hashability'**. 
 
+### What is a hash function?
+- A hash function is a mathematical function that takes an input of arbitrary length and produces a fixed-length output called a **hash value** or **hash code**.
+- The goal of a hash function is to **map unique inputs to unique outputs**, ensuring that no two different inputs produce the same hash value. 
+- Hash functions are used in a variety of applications, including:
+  - **Data storage and retrieval:** 
+    - Hash functions are used to store and retrieve data in hash tables, which are data structures that allow for efficient lookup of data based on a key. 
+    - In a hash table, each key is mapped to a unique hash value, which is then used to index the location of the data in the table.
+  - **Cryptography:** 
+    - Hash functions are used in cryptography to create digital signatures.
+    - Hash functions are also used to create checksums, which are used to detect accidental data corruption.
+  - **Fingerprinting:** 
+    - Hash functions can be used to create fingerprints of files or data streams. 
+    - A fingerprint is a unique identifier that can be used to compare two files or data streams and determine if they are the same. 
+    - Fingerprints are often used to detect copyright infringement or to ensure the integrity of software updates.
+
+### What are hash tables? 
+  - Hash tables, also known as **hash maps**, are a fundamental data structure in computer science. 
+  - They are used to store and retrieve data efficiently based on keys. 
+  - Hash tables are implemented using hash functions, which map keys to unique indices in an array. 
+
+### Hash Tables and Dictionaries
+- **Dictionaries are implemented as hash tables**
+- Each key is associated with a unique value, and the hash function is used to map each key to a unique index in the dictionary's hash table.
+- When you access a key in a dictionary, the hash function is used to determine the index of the key's value.
+```python
+d = {}
+d['apple'] = 'red'
+d['banana'] = 'yellow'
+
+print(d['apple'])  # Output: red
+```
+
+### The Concept of Hashability in Python
+**For an object to serve as a dictionary key, it must be hashable.**
+- **Hashable Object:** 
+  - An object is hashable if it has a hash value that does not change throughout its lifetime. 
+  - Hashable objects include immutable types like strings and numbers.
+- **Non-hashable Object:** 
+  - Objects whose content can change, like lists and dictionaries, are not hashable because their hash value may vary over time.
+ 
+### Dictionary Operations: Storage and Retrieval
+- The hash of a key is instrumental in both storing and retrieving values in a dictionary:
+- **Storing a Key-Value Pair:** Python hashes the key and uses the hash to determine where to store the value in memory.
+- **Retrieving a Value:** Python hashes the key and directly accesses the memory location where the value is stored, making this operation O(1), or constant time.
+```python
+my_dict = {'apple': 1, 'banana': 2, 'cherry': 3}
+my_dict['date'] = 4  # Add a new key-value pair
+print(my_dict['banana'])  # Output: 2
+print(hash('apple'))  # Outputs the hash value for 'apple'
+
+# Attempting to use a non-hashable object as a key results in an error
+try:
+    my_dict[['apple', 'banana']] = [1, 2]
+except TypeError as e:
+    print(e)  # Output: unhashable type: 'list'
+```
+
+### Time Complexity of Dictionary Operations
+Understanding the time complexity for different operations is crucial:
+
+- **Access:** **O(1)** - Accessing an item by key is constant time.
+- **Insertion:** Generally **O(1)**, but may temporarily become O(n) if resizing is needed.
+- **Deletion:** Averages to **O(1)** for similar reasons as insertion and access.
+- **Search:** Directly computes the hash to locate the key, hence **O(1)**.
+
+### Understanding id() in Python
+While discussing dictionaries, it's essential to distinguish between id() and hash():
+- **id() Function:** Offers a unique identifier for an object, typically its memory address in CPython. It's constant for the object's lifetime.
+- **Hash:** Reflects the object's content and is crucial for its operation in hash-based structures like dictionaries.
+While id() provides a unique identity for an object, hash() is instrumental in its role as a potential dictionary key, ensuring the object can be efficiently located within hash-based structures.
+
+---
+# Comprehension
+- List, set, and dictionary comprehensions provide a concise way to create lists, sets, and dictionaries in Python without having to use loops or map/filter functions. 
+- They are a part of Python’s syntax and offer a readable and efficient way to generate new iterable collections based on existing ones.
+
+## 1. List Comprehension
+- List comprehensions are used to create new lists by applying an expression to each item in an existing iterable.
+- Syntax: `[expression for item in iterable if condition]`
+```python
+# Using list comprehension to create a list of squares
+squares = [x**2 for x in range(10)]
+print(squares)
+
+# Output:
+# [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+- In the example above, x**2 is the expression, x is the item, and range(10) is the iterable. 
+- The for loop goes through each number in the range 0 to 9, squares it, and adds it to the list squares.
+
+## 2. Set Comprehension
+- Set comprehensions are similar to list comprehensions, but they produce sets, which means the output will have unique elements.
+- Syntax: `{expression for item in iterable if condition}`
+```python
+# Using set comprehension to create a set of squares
+squares_set = {x**2 for x in range(10)}
+print(squares_set)
+
+# Output:
+# {0, 1, 64, 4, 36, 9, 16, 49, 81, 25}
+```
+- The syntax is similar to list comprehension, but with curly braces. 
+- Note that the order of the elements in the set might not be the same as the order in which they were added because sets are unordered collections.
+
+## 3. Dictionary Comprehension
+- Dictionary comprehensions are used to create dictionaries. 
+- You can generate both the keys and values with expressions.
+- Syntax: `{key_expression: value_expression for item in iterable if condition}`
+- Let's create a dictionary where the keys are numbers from 0 to 9 and the values are the squares of those numbers.
+```python
+# Using dictionary comprehension to create a dictionary of squares
+squares_dict = {x: x**2 for x in range(10)}
+print(squares_dict)
+
+# Output:
+{0: 0, 1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81}
+```
+- In this example, x is the key expression, x**2 is the value expression, and range(10) is the iterable. 
+- The comprehension goes through each number in the range 0 to 9, creates a key-value pair with the number and its square, and adds it to the dictionary squares_dict.
+
+- In all these comprehensions, the if condition part is optional. 
+- If included, it will filter the items of the iterable, including only the items for which the condition is True in the new collection.
+
+- These comprehension techniques are powerful and can make your code more readable and expressive. 
+- They're widely used in Python for data processing and transformation tasks.
+---
 ### Assignments
 1. **Dictionary Creation:**
 - Write Python code to create an empty dictionary called `student_scores`. 
