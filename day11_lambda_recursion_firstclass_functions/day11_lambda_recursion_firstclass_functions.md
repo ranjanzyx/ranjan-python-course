@@ -325,7 +325,29 @@ print(cube(4))   # Outputs: 64
 - When you call `power_factory(3)`, it creates a new function that cubes its input. 
 - Each function remembers the value of exponent that was used when it was created.
 
-### Advanced Utilization of Closures
-Closures offer advanced capabilities, including state preservation, data encapsulation, and callback function creation, enriching Python's functional programming paradigm.
-
 ---
+### Interview Questions
+#### Lambda Functions
+1. Basic Understanding: Can you explain what a lambda function is and how it differs from a regular function in Python?
+2. Practical Usage: Provide an example of how you might use a lambda function in a real-world scenario. When would you prefer a lambda function over a named function?
+3. Limitations: Are there any limitations or drawbacks to using lambda functions? Can you discuss a scenario where using a lambda function might not be the best choice?
+#### Recursion
+1. Conceptual Understanding: Can you explain what recursion is and how it works? Provide an example of a simple recursive function.
+2. Efficiency Considerations: Discuss the potential drawbacks of using recursion. What are stack overflows, and how do they relate to recursive calls?
+#### First-Class Functions
+1. Definition and Implications: Define what a first-class function is. How does treating functions as first-class citizens affect the way you can code in a language?
+2. Higher-Order Functions: Provide an example of a higher-order function and explain how it leverages the concept of first-class functions.
+3. Use Cases and Benefits: Can you discuss a scenario where first-class functions provide a significant advantage or allow for more elegant code?
+#### Closures
+1. Basic Understanding: Explain what a closure is in the context of Python. Provide a simple example.
+2. Practical Usage: Discuss a practical use case for closures. When would using a closure be more beneficial than other alternatives?
+#### Factory Functions
+1. Definition and Usage: What is a factory function, and how is it typically used? Provide an example.
+---
+### Coding Assignments
+1. Data Transformation: Write a program that uses lambda functions to transform a list of numbers (e.g., convert temperatures from Celsius to Fahrenheit, find the square of each number).
+2. Fibonacci Sequence: Implement a recursive function to compute the Nth number in the Fibonacci sequence.
+3. Function as Argument: Write a function that takes another function as an argument and applies it to a list of inputs.
+4. Function Returning Function: Implement a function that returns another function, demonstrating the concept of first-class functions.
+5. Counter Function: Write a closure that creates a counter function. Each time the counter is called, it should return an incremented value.
+6. Write a program to traverse a dictionary with an unknown level of nesting and print each key-value pair.
