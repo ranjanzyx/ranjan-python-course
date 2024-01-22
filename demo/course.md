@@ -33,7 +33,8 @@
 
 ---
 ## Detailed Course Structure
-### Week 1: Introduction and Basics
+
+### Week 1: Python Fundamentals and Control Structures
 
 **Day 1:** Introduction to Python and Setting Up the Environment
 
@@ -45,7 +46,7 @@
 
 **Day 5:** String Manipulation and Formatting
 
-### Week 2: Data Structures and Functions
+### Week 2: Python Data Structures and Exploring Functions
 
 **Day 6:** Lists and List Operations
 
@@ -55,19 +56,19 @@
 
 **Day 9:** Functions: Definition and Scope
 
-**Day 10:** Revision and Practice Problems
+**Day 10:** Functions: *args, **kwargs, docstring, type hints
 
-### Week 3: Intermediate Concepts and Debugging
+### Week 3: Advanced Functional Programming and File Operations
 
-**Day 11:** Introduction to Regex
+**Day 11:** Functions: First-Class Functions, Nested Functions, Lambda Functions and Closures
 
-**Day 12:** File I/O: Reading and Writing Files
+**Day 12:** Functions: Factory Functions, Decorators and functools
 
-**Day 13**: Introduction to pip, libraries/modules, and Virtual Environments
+**Day 13**: Comprehensions (List, Set, Dictionary), Iterators and Generators 
 
-**Day 14**: Modules and Packages, working with external libraries (e.g., requests, NumPy) 
+**Day 14**: File I/O: Reading and Writing Files
 
-**Day 15**: Introduction to Debugging in Python 
+**Day 15**: Python and DB Interaction 
 
 ### Week 4: Object-Oriented Programming
 
@@ -81,19 +82,19 @@
 
 **Day 20**: Practical OOP Concepts
 
-### Week 5: Advanced Topics and Introduction to testing
+### Week 5: Python Ecosystem and Best Practices
 
-**Day 21**: Comprehensions (List, Set, Dictionary)
+**Day 21**: Introduction to Regex
 
-**Day 22**: Lambda Functions and Higher Order Functions
+**Day 22**: Modules and Packages, working with external libraries (e.g., requests, NumPy)
 
-**Day 23**: Iterators and Generators
+**Day 23**: Introduction to pip, libraries/modules, and Virtual Environments
 
-**Day 24**: Decorators
+**Day 24**: Introduction to Debugging in Python
 
 **Day 25**: Introduction to Testing in Python (unittest, pytest)
 
-### Week 6: Introduction to Frameworks
+### Week 6: Introduction to Frameworks and Project Implementation
 
 **Day 26:** Introduction to Django
 
