@@ -280,11 +280,72 @@ print(result)  # Output: HELLO
 ## Closures: Capturing Enclosing Scope
 - Closures are a nuanced concept where a nested function retains the context of its creation, even after the outer function has completed execution.
 
-### Closure Characteristics
-- Closures remember their creation environment, maintaining a reference to their enclosing scope.
-- They make use of "free variables," which are defined in the enclosing scope but used in the inner function.
+### Understanding Closures
+- **Environment:** 
+  - A closure occurs when a nested function (inner function) remembers the environment in which it was created. 
+  - The environment consists of any variables in the scope where the inner function was created, not in the scope where it is called.
 
-Example: Function Factories with Closures
+- **Nested Functions:** 
+  - Closures involve a nested function: a function defined inside another function.
+
+- **Persistence of the Outer Function's Local State:** 
+  - The outer function has finished executing, but its local variables are not destroyed; they are remembered for use by the inner function.
+
+### Example 1: Basic Closure
+- `outer_function` creates a local variable `message` and defines a `inner_function`.
+- `inner_function` prints the `message` variable. It doesn't have its own `message`, so it uses the one from the `outer_function`.
+- `outer_function` returns `inner_function`. 
+- `my_func` is now equal to `inner_function`, but with the `message` variable from outer_function remembered.
+- Even after we exit outer_function, the call `my_func()` can still access the message variable that was defined in outer_function.
+```python
+def outer_function(msg):
+    message = msg
+
+    def inner_function():
+        print(message)
+
+    return inner_function
+
+my_func = outer_function('Hello')
+my_func()
+```
+### Example 2: Closure as Factory Functions
+- Factory functions are functions that return new, specialized functions. 
+- They can be used to create configurations or to encapsulate behaviors that need to be reused with slight variations.
+```python
+def outer_function(msg):
+    message = msg
+
+    def inner_function():
+        print(message)
+
+    return inner_function
+
+say_hello = outer_function('Hello')
+say_hi = outer_function('Hi')
+
+say_hello()  # Hello
+say_hi()  # Hi
+```
+```python
+
+def power(exponent):  # This is the factory function
+    def base(base_number):  # This is a new function created each time factory is called
+        result = base_number ** exponent 
+        return result
+    return base
+
+square = power(2)
+cube = power(3)
+
+print(square(4))  # Outputs: 16
+print(cube(4))   # Outputs: 64
+```
+- In this example, `power_factory` is a factory that **produces functions**. 
+- When you call `power_factory(2)`, it creates a new function that squares its input. 
+- When you call `power_factory(3)`, it creates a new function that cubes its input. 
+- Each function remembers the value of exponent that was used when it was created.
+
 ```python
 def make_multiplier_of(n):
     def multiplier(x):
@@ -297,33 +358,7 @@ times5 = make_multiplier_of(5)
 print(times3(9))  # Output: 27
 print(times5(3))  # Output: 15
 ```
-In this instance, times3 and times5 are closures, retaining the value of n from their respective creation environments.
-
-
-# Factory Functions
-- Factory functions are functions that return new, specialized functions. 
-- They can be used to create configurations or to encapsulate behaviors that need to be reused with slight variations.
-
-```python
-def power_factory(exponent):
-    # This is the factory function
-
-    def power(base):
-        # This is a new function created each time factory is called
-        return base ** exponent
-
-    return power
-
-square = power_factory(2)
-cube = power_factory(3)
-
-print(square(4))  # Outputs: 16
-print(cube(4))   # Outputs: 64
-```
-- In this example, `power_factory` is a factory that **produces functions**. 
-- When you call `power_factory(2)`, it creates a new function that squares its input. 
-- When you call `power_factory(3)`, it creates a new function that cubes its input. 
-- Each function remembers the value of exponent that was used when it was created.
+- In this instance, times3 and times5 are closures, retaining the value of n from their respective creation environments.
 
 ---
 ### Interview Questions
