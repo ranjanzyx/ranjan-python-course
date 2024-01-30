@@ -138,202 +138,428 @@ my_cake.describe()  # Output: This is a chocolate cake.
 - You have your recipe (class), your ingredients (instance variables), and your cooking steps (instance methods).
 - And just like in cooking, you can create many different cakes (objects) from the same recipe (class), each with its own specific flavors and decorations (attributes and methods).
 
-## Class Variables and Methods
-- **Class variables** are like the **common ingredients or utensils** that every cook in the kitchen uses, no matter what specific dish they're making. 
-- They are shared among all instances of the class.
+## Introduction to Class Variables and Class Methods
+- In object-oriented programming, especially in Python, classes act as blueprints for creating objects. 
+- Classes can contain two main types of components: **variables** and **methods**. 
+- Among these, there are distinctions based on whether they belong to the class itself or to instances of the class. 
+- This brings us to class variables and class methods.
 
-- **Instance variables**, on the other hand, are like the **specific ingredients** for each chef's particular dish. They are unique to each instance.
+### Introduction to Class Variables
+- Class variables are variables that are shared across all instances of a class. 
+- They hold the same value for every instance of the class, making them ideal for storing properties that are common to all objects of the class. 
+- If the value of a class variable is changed, the change is reflected across all instances.
 
-- **Class methods** are similar to instructions or rules in the kitchen that apply to everyone, like "clean up after you're done." 
-- They are methods that have a logical association with the class itself, not with any particular instance of the class.
+### Introduction to Class Methods
+- Class methods are methods that are bound to the class rather than its instances. 
+- They can access and modify class state (i.e., class variables) that applies across all instances of the class. 
+- Class methods are not concerned with individual instance variables. 
+- Instead, they operate at the class level, affecting all instances of the class.
+
+Let's consider the Cake class:
 
 ```python
-class Kitchen:
-    cleanliness_standard = 10  # Class variable
+class Cake:
+    shape = "round"  # Class variable: Shared among all cakes
 
-    def __init__(self, chef):
-        self.chef = chef  # Instance variable
+    def __init__(self, flavor):
+        self.flavor = flavor  # Instance variable: Unique to each cake
 
     @classmethod
-    def upgrade_cleanliness_standard(cls, new_standard):
-        cls.cleanliness_standard = new_standard  # Class method
+    def set_shape(cls, new_shape):
+        cls.shape = new_shape  # Class method: Updates the shape for all cakes
 ```
-In this code:
-- `cleanliness_standard` is a class variable. It applies to all instances of the class.
-- `chef` is an instance variable. Each kitchen can have a different chef.
-- `upgrade_cleanliness_standard` is a class method. It's used to change the cleanliness_standard for all kitchens, not just one.
+In this class:
+- **shape** is a `class variable`, meaning every Cake instance will initially have a shape of "round".
+- **flavor** is an `instance variable`, meaning each Cake instance can have a different flavor.
+- **set_shape** is a `class method` used to change the shape class variable, affecting the shape of all cakes, not just an individual cake.
+
+### Explanation of `@classmethod`, `cls`, and Alternative Names
+- `@classmethod` is a decorator in Python, indicating the following method is a class method.
+- `cls` is a conventional parameter name in class methods, referring to the class itself. 
+- While cls is not a keyword and you could technically use another name, it's a strong convention in Python to use `cls` for class methods, just like self is used for instance methods to refer to the instance.
+
+### What Happens If We Don't Use @classmethod
+- If you don't use the `@classmethod` decorator, the method will not be treated as a class method. 
+- Instead, it will be considered an instance method and will expect self as the first parameter, referring to the instance of the class, not the class itself. 
+- This means it won't be able to modify class variables in the way class methods can unless accessed through the class name explicitly.
+
+### Expanding on the Cake Class Example
+**Using set_shape with Object and Class References**
+  - **Object Reference:** 
+    - Even though `set_shape` is a class method (affecting the class variable for all instances), you can still call it on an instance of the class. 
+    - For example: `chocolate_cake.set_shape("square")`
+    - This will change the shape for all instances of `Cake`, not just for `chocolate_cake`. 
+    - It's the same as calling `Cake.set_shape("square")`.
+
+  - **Class Reference:** 
+    - The typical way to use a class method is on the class itself, not on an instance of the class. 
+    - For example: `Cake.set_shape("square")`
+    - This makes it clear that the method is intended to operate on the class level, affecting all instances of the class.
+
+### Objects Created Before and After Modifying Class Variables
+- **Before Modification:** 
+    - Objects created before the modification of a class variable retain access to the class variable. 
+    - However, if the class variable is modified, these objects will see the new value, as class variables are shared across all instances.
+```python
+chocolate_cake = Cake("chocolate")  # shape is initially "round"
+Cake.set_shape("square")  # shape changed to "square"
+print(chocolate_cake.shape)  # This will print "square"
+```
+- **After Modification:** 
+  - Objects created after the modification of a class variable will inherently access the modified class variable.
+```python
+Cake.set_shape("square")  # shape changed to "square"
+vanilla_cake = Cake("vanilla")  # shape is "square" for this new object
+```
 
 ## Static Methods
-- Static methods in Python are like tips or general knowledge in a cookbook that isn't specific to any recipe.
-- You can use these tips no matter what you're cooking.
+- Static methods, much like class methods, are a way to encapsulate functionality in a class without requiring a reference to a particular instance or the class itself. 
+- They are marked with the `@staticmethod` decorator, indicating that they do not automatically receive an instance (`self`) or class (`cls`) reference as their first argument. 
 
-- Static methods don't necessarily pertain to the state of the object or class. 
-- They're utility functions that could logically belong to the class but don't need access to any class-specific or instance-specific data.
+### Introduction to Static Methods
+- Static methods are functions defined within a class that don't access or modify the class state (class variables) or instance state (instance variables). 
+- They are **utility functions that perform a task in isolation**.
+
+- **Definition:** Static methods are defined using the `@staticmethod` decorator.
+- **No self or cls:** Unlike instance methods or class methods, static methods do not receive an implicit first argument, either self or cls.
+- **Utility Functions:** They are often used to implement functionality that logically belongs to the class but does not need to access the class or instance-specific data.
+
+
+- Let's say we want to add a functionality to the Cake class that can suggest a serving size based on the cake's size, 
+  but this calculation does not depend on the specific cake instance's properties nor the class's properties. 
+- This is a perfect scenario for a static method.
 
 ```python
-class Kitchen:
+class Cake:
+    shape = "round"  # Class variable: Shared among all cakes
+
+    def __init__(self, flavor):
+        self.flavor = flavor  # Instance variable: Unique to each cake
+
+    @classmethod
+    def set_shape(cls, new_shape):
+        cls.shape = new_shape  # Class method: Updates the shape for all cakes
 
     @staticmethod
-    def convert_ounces_to_grams(ounces):
-        return ounces * 28.3495  # Static method
+    def serving_size(cake_size):
+        if cake_size <= 6:
+            return "Small - Serves 2-4"
+        elif cake_size <= 10:
+            return "Medium - Serves 5-8"
+        else:
+            return "Large - Serves 9+"
 ```
-In this code:
-- `convert_ounces_to_grams` is a static method. 
-- It's a utility that can be used independently of any particular kitchen or chef's instance.
+In this class:
+
+- `serving_size` is a **static method**, meaning it can be called on the class itself, not on a specific instance, and it doesn't modify the class or instance state.
+- `cake_size` is just a regular parameter you pass to the method. It doesn't have any special behavior like `self` or `cls`.
+
+### Usage of Static Methods
+- You can call a static method using the class name, similar to class methods:
+```python
+print(Cake.serving_size(7))  # Output: "Medium - Serves 5-8"
+```
+
+### Characteristics of Static Methods
+- **Namespace Organization:** Static methods keep methods logically associated with a class within the class's namespace.
+- **Memory Efficiency:** They don't require an instance to be created to be called, which can be more memory-efficient.
+- **Limited Access:** They cannot modify or access the properties of the class or instances of the class.
+
+### Comparison with Class Methods and Instance Methods
+**Class Methods:**
+- Can access and modify class state.
+- Receive the class as the implicit first argument (cls).
+
+**Instance Methods:**
+- Can access and modify instance state and class state.
+- Receive the instance as the implicit first argument (self).
+
+**Static Methods:**
+- Do not access or modify instance or class state.
+- Do not receive an implicit first argument.
+
+Static methods are best used when you need a utility function that doesn't access any properties of a class but still makes sense to be included within the class's scope, as it's closely related to the class's purpose. 
+This keeps the class self-contained and easier to understand and maintain.
 
 ## Private Members
-- Private variables and methods in a class are like secret recipes or special techniques that a chef doesn't want to share with others. 
-- They are meant to be hidden from the outside, only used within the class itself.
+- Private members in object-oriented programming (OOP) are attributes or methods of a class that are not accessible or visible to the outside of the class. 
+- They're meant to be strictly used internally within the class. 
+- This encapsulation is a core concept of OOP, aimed at creating a clear interface and preventing external entities from accessing the internal workings of a class directly. 
+- Let's delve into this concept in Python, noting that Python's approach to privacy is based on a naming convention.
 
-- In Python, we typically indicate private members by prefixing the name with an `underscore _`. 
-- However, this is just a convention and doesn't enforce privacy.
+### Private Instance Variables:
+- In Python, private instance variables are created by prefixing the variable name with two underscore characters (__).
+- However, it's important to note that this doesn't enforce strict privacy but is more of a convention to indicate that the variable is meant to be private. 
+- Here's an example:
+```python
+class Cake:
+    def __init__(self, flavor, secret_sauce):
+        self.flavor = flavor  # Public variable
+        self.__secret_sauce = secret_sauce  # Private variable
+
+    def get_secret_sauce(self):
+        return self.__secret_sauce  # Accessing the private variable within the class
+
+cake = Cake("Chocolate", 'abc')
+print(cake.flavor)  # This will work, as flavor is public
+print(cake.__secret_sauce)  # This will raise an error, as secret sauce is private
+```
+In the Cake class:
+- `flavor` is a **public variable**, accessible from outside the class.
+- `__secret_sauce` is a **private variable**, not intended to be accessed or modified directly from outside the class.
+
+### Private Methods:
+- Similarly, private methods are defined by prefixing the method name with two underscores. 
+- They are meant to be called only within the class and not meant to be accessible from instances of the class or subclasses.
 
 ```python
-class Kitchen:
-    def __init__(self, chef):
-        self.chef = chef
-        self._secret_recipe = "Secret Lasagna"  # Private variable
+class Cake:
+    def __init__(self, ingredients):
+        self.ingredients = ingredients
+        self.__mix_ingredients()
 
-    def _secret_cooking_technique(self):  # Private method
-        print("Cooking with the secret technique.")
+    def __mix_ingredients(self):
+        print("Mixing ingredients: ", self.ingredients)
+
+cake = Cake(["flour", "sugar", "eggs"])
+cake.__mix_ingredients()  # This will raise an error, as it's a private method
 ```
-In this code:
-- `_secret_recipe` is a private variable. It's meant to be used only within the Kitchen class.
-- `_secret_cooking_technique` is a private method. It's a method that's not intended to be used outside of the class's scope.
+- Here, `__mix_ingredients` is a private method and is used internally by the `__init__` method.
 
-**NOTE:** Remember, the privacy of these members in Python is only by convention. The language itself doesn't enforce it strictly; it's more about signaling to other programmers that these should not be accessed directly from outside the class.
+### Name Mangling:
+- In Python, private members are subject to **name mangling**. 
+- The interpreter changes the name of the private attribute in a way that makes it harder to access unintentionally. 
+- The new name is constructed by adding _ClassName before the attribute name.
+- However, it's still possible to access private variables using name mangling:
+```python
+print(cake.__secret_sauce)  # This will raise an error, as secret sauce is private
+print(cake._Cake__secret_sauce)  # This will work, but it's highly discouraged as it breaks the convention of private members.
+```
 
-# Implementing Inheritance
-- Inheritance in programming is like passing down cooking techniques and recipes from one generation of chefs to the next. 
-- The child chefs inherit the culinary skills (methods) and secret ingredients (attributes) of their parent chefs but can also add their own flair and new recipes.
+# Inheritance
+- Inheritance is a fundamental concept in object-oriented programming (OOP), allowing one class to inherit attributes and methods from another. 
+- In Python, inheritance is used to create a new class that is a modified version of an existing class. 
+- This promotes code reuse and establishes a hierarchical relationship between classes.
+
+### Basic Concept of Inheritance
+- **Base Class (Parent Class):** The class whose properties and methods are inherited.
+- **Derived Class (Child Class):** The class that inherits properties and methods from the base class.
+
+### Advantages of Inheritance
+- **Code Reuse:** Common functionality can be written in the base class and specialized in the derived class.
+- **Easy Maintenance:** Changes in the base class automatically propagate to derived classes, assuming they don't override base class methods.
+- **Polymorphism:** A derived class can be treated as an instance of the base class, often useful in polymorphic behavior.
+
+### Implementing Inheritance in Python
+```python
+# Base class
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
+
+    def bake(self):
+        print(f"Baking a {self.flavor} cake!")
+
+# Derived class
+class WeddingCake(Cake):
+    def __init__(self, flavor, tiers):
+        super().__init__(flavor)  # Call the __init__ of the base class
+        self.tiers = tiers
+
+    def bake(self):
+        print(f"Baking a {self.tiers}-tier {self.flavor} wedding cake!")
+```
+In this example:
+- `WeddingCake` inherits from `Cake`.
+- `WeddingCake` calls the `__init__` method of `Cake` using `super().__init__(flavor)` to ensure the flavor attribute is set.
+- `WeddingCake` has its own attribute `tiers`.
+- `WeddingCake` overrides the `bake` method to provide a specialized message for a wedding cake.
+
+
+### Types of Inheritance
+1. **Single Inheritance:** A derived class inherits from one base class.
+2. **Multiple Inheritance:** A derived class inherits from multiple base classes.
+3. **Multilevel Inheritance:** A class inherits from a derived class, making it a base class for a new class.
+4. **Hierarchical Inheritance:** Multiple classes inherit from a single base class.
+5. **Hybrid Inheritance:** A combination of multiple and multilevel inheritance.
+
+### Method Resolution Order (MRO)
+- In cases of multiple inheritance, Python uses the **Method Resolution Order (MRO)** to determine the order in which base classes are searched when looking for a method. 
+- This is important to understand when you have complex inheritance hierarchies and need to know how Python will find the correct method to use.
+
+### super() Function
+- `super()` is used to call methods from the base class:
+- In single inheritance, it's straightforward: super() refers to the base class.
+- In multiple inheritance, super() follows the MRO to determine the next class to look for methods.
+
+
+### Single Inheritance
+- A derived class inherits from one base class.
+```python
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
+
+class WeddingCake(Cake):
+    def __init__(self, flavor, tiers):
+        super().__init__(flavor)
+        self.tiers = tiers
+
+# Usage
+cake = WeddingCake("Vanilla", 3)
+print(cake.flavor)  # Output: Vanilla
+```
+
+### Multiple Inheritance
+A derived class inherits from multiple base classes.
 
 ```python
-class Chef:
-    def __init__(self, specialty):
-        self.specialty = specialty
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
 
-    def cook(self):
-        print(f"Cooking a {self.specialty} dish.")
+class Frosting:
+    def __init__(self, frosting_type):
+        self.frosting_type = frosting_type
 
-class ItalianChef(Chef):  # Inherits from Chef
-    def cook_pasta(self):
-        print("Cooking pasta.")
+class FrostedCake(Cake, Frosting):
+    def __init__(self, flavor, frosting_type):
+        Cake.__init__(self, flavor)
+        Frosting.__init__(self, frosting_type)
 
-my_chef = ItalianChef("Italian")
-my_chef.cook()        # Inherited method
-my_chef.cook_pasta()  # New method in child class
+# Usage
+frosted_cake = FrostedCake("Chocolate", "Buttercream")
+print(frosted_cake.flavor, frosted_cake.frosting_type)  # Output: Chocolate Buttercream
 ```
-In this code:
-- `ItalianChef` inherits from `Chef`. All methods and attributes of Chef are available in ItalianChef.
-- `ItalianChef` has its own method `cook_pasta`, representing the new skills added by the child chef.
 
-## Method Overriding
-- Method overriding is like a child chef updating a family recipe to add a personal touch or modernize it. 
-- The base recipe (method) is the same, but the execution (method implementation) can be different.
-
+### Multilevel Inheritance
+- A class inherits from a derived class, making it a base class for a new class.
 ```python
-class Chef:
-    def cook(self):
-        print("Cooking a generic dish.")
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
 
-class ItalianChef(Chef):
-    def cook(self):
-        print("Cooking a generic dish but with my improvements.")  # Overriding method
+class WeddingCake(Cake):
+    def __init__(self, flavor, tiers):
+        super().__init__(flavor)
+        self.tiers = tiers
 
-my_chef = ItalianChef()
-my_chef.cook()  # Output: Cooking a generic dish but with my improvements.
+class DecoratedWeddingCake(WeddingCake):
+    def __init__(self, flavor, tiers, decorations):
+        super().__init__(flavor, tiers)
+        self.decorations = decorations
+
+# Usage
+decorated_cake = DecoratedWeddingCake("Vanilla", 3, "Flowers")
+print(decorated_cake.flavor, decorated_cake.tiers, decorated_cake.decorations)  # Output: Vanilla 3 Flowers
 ```
-In this code:
 
-- The `cook` method in `ItalianChef` overrides the `cook` method in `Chef`. 
-- When you call cook on an instance of ItalianChef, the overridden method is executed.
-
-## Multiple Inheritance
-- Multiple inheritance is like a child chef learning from two different culinary traditions, inheriting skills and recipes from both. 
-- This can lead to a rich cooking style but can also introduce complexity, like conflicting techniques or ingredients.
-
+### Hierarchical Inheritance
+- Multiple classes inherit from a single base class.
 ```python
-class ItalianChef:
-    def cook_pasta(self):
-        print("Cooking pasta.")
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
 
-class FrenchChef:
-    def cook_souffle(self):
-        print("Cooking souffle.")
+class WeddingCake(Cake):
+    def __init__(self, flavor, tiers):
+        super().__init__(flavor)
+        self.tiers = tiers
 
-class FusionChef(ItalianChef, FrenchChef):  # Inherits from both
-    def cook_fusion_dish(self):
-        print("Cooking a fusion dish.")
+class BirthdayCake(Cake):
+    def __init__(self, flavor, candles):
+        super().__init__(flavor)
+        self.candles = candles
 
-my_chef = FusionChef()
-my_chef.cook_pasta()         # Inherited from ItalianChef
-my_chef.cook_souffle()       # Inherited from FrenchChef
-my_chef.cook_fusion_dish()   # Method in FusionChef
+# Usage
+wedding_cake = WeddingCake("Vanilla", 3)
+birthday_cake = BirthdayCake("Chocolate", 24)
+print(wedding_cake.flavor, wedding_cake.tiers)  # Output: Vanilla 3
+print(birthday_cake.flavor, birthday_cake.candles)  # Output: Chocolate 24
 ```
-In this code:
-- `FusionChef` inherits from both `ItalianChef` and `FrenchChef`. 
-- It can use methods from both parent classes.
 
+### Hybrid Inheritance
+- A combination of multiple and multilevel inheritance.
+```python
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
 
-- Multiple inheritance can lead to complexities, especially if the parent classes have methods or attributes with the same names (this can lead to ambiguity about which parent's method/attribute should be used).
+class Frosting:
+    def __init__(self, frosting_type):
+        self.frosting_type = frosting_type
 
-- Inheritance and polymorphism are powerful tools in Python, allowing for the creation of flexible and modular code. 
-- They're akin to the rich traditions in the culinary world, where recipes and techniques are passed down and adapted over generations, creating a diverse and vibrant culinary landscape.
+class FrostedCake(Cake, Frosting):
+    def __init__(self, flavor, frosting_type):
+        Cake.__init__(self, flavor)
+        Frosting.__init__(self, frosting_type)
+
+class WeddingFrostedCake(FrostedCake):
+    def __init__(self, flavor, frosting_type, tiers):
+        super().__init__(flavor, frosting_type)
+        self.tiers = tiers
+
+# Usage
+wedding_frosted_cake = WeddingFrostedCake("Red Velvet", "Cream Cheese", 4)
+print(wedding_frosted_cake.flavor, wedding_frosted_cake.frosting_type, wedding_frosted_cake.tiers)  # Output: Red Velvet Cream Cheese 4
+```
+
+### Method Overriding
+- A derived class can provide a specific implementation of a method that is already defined in its base class. 
+- This is known as method overriding. 
+- In the `WeddingCake` example, the `bake` method is overridden to provide a custom implementation for WeddingCake.
 
 ## Abstract Classes and Methods
-- Imagine a general concept or a theme in a kitchen, like **"Italian Cuisine."** 
-- It's a broad idea, and you can't just "cook Italian Cuisine" without specifying a particular dish. 
-- This is similar to abstract classes and methods in programming. 
-- An abstract class is like a template for other classes. 
-- It outlines a set of methods that any child classes (specific dishes) must implement.
+- Abstract classes and methods are fundamental concepts in object-oriented programming, enabling you to create a **blueprint for other classes**. 
+- They're particularly useful when you want to define a template for a group of subclasses and ensure they all follow the same structure or interface.
 
-- In Python, abstract classes are created using the `abc` module:
+###  Abstract Classes:
+- An abstract class is a class that cannot be instantiated on its own. 
+- Instead, it is designed to be subclassed by other classes. 
+- Abstract classes are used to define a common interface for a set of subclasses.
 
+### Characteristics of Abstract Classes:
+- **Cannot be Instantiated:** You cannot create an instance of an abstract class directly.
+- **Subclassing Required:** They are meant to be base classes, which need to be extended by other subclasses.
+- **Common Interface:** Abstract classes provide a way to define methods that must be created within any child classes built from the abstract class.
+
+### Abstract Methods:
+- An abstract method is a method that is declared in the abstract class but it does not have an implementation. 
+- Subclasses are expected to implement this method.
+
+### Characteristics of Abstract Methods:
+- **Declaration Only:** An abstract method is declared but contains no implementation. Subclasses are expected to provide an implementation of this method.
+- **Enforces Structure in Subclasses:** If a subclass inherits from an abstract class, it must implement all abstract methods of the parent class.
+
+### Implementing Abstract Classes and Methods in Python:
+- Python provides the `abc` module (**Abstract Base Classes**) to use abstract classes and methods. 
+- Here's how you can create an abstract class and abstract methods:
 ```python
 from abc import ABC, abstractmethod
 
-class ItalianCuisine(ABC):
+class Cake(ABC):
+    
+    def __init__(self, flavor):
+        self.flavor = flavor
+
     @abstractmethod
-    def cook_pasta(self):
-        pass  # No implementation here
+    def serve(self):
+        pass
 
-class Spaghetti(ItalianCuisine):
-    def cook_pasta(self):
-        print("Cooking spaghetti.")  # Specific implementation
+class Cupcake(Cake):
+    def serve(self):
+        return f"Serving a {self.flavor} cupcake."
 
-# my_dish = ItalianCuisine()  # This would raise an error
-my_dish = Spaghetti()  # This works fine
-my_dish.cook_pasta()  # Output: Cooking spaghetti.
+class Pancake(Cake):
+    def serve(self):
+        return f"Serving a stack of {self.flavor} pancakes."
 ```
-In this code:
-- `ItalianCuisine` is an abstract class, and `cook_pasta` is an abstract method.
-- `Spaghetti` is a concrete class that inherits from `ItalianCuisine` and implements the `cook_pasta` method.
+In this example:
+- `Cake` is an **abstract class** because it contains the abstract method `serve`.
+- `serve` is an abstract method. It's declared by using the `@abstractmethod` decorator, and it defines the method signature without an implementation.
+- `Cupcake` and `Pancake` are **concrete classes** that inherit from Cake and provide their own implementation of the serve method.
 
-
-## Decorators
-- Decorators in Python are like special garnishes or seasonings you add to a dish to enhance its flavor or presentation. 
-- In programming, decorators are used to modify or extend the behavior of functions or methods without permanently modifying them.
-
-```python
-def add_garnish(func):
-    def wrapper():
-        print("Adding garnish.")
-        func()
-        print("Garnish added.")
-    return wrapper
-
-@add_garnish
-def cook_dish():
-    print("Cooking the dish.")
-
-cook_dish()
-# Output:
-# Adding garnish.
-# Cooking the dish.
-# Garnish added.
-```
-In this code:
-- `add_garnish` is a decorator that adds steps before and after the `cook_dish` function.
-- The `@add_garnish` syntax is used to apply the decorator to the cook_dish function.
-
- 
+### Usage of Abstract Classes and Methods:
+- **Ensuring Consistency:** Abstract classes ensure that all subclasses built from them implement the same set of methods.
+- **Design and Planning:** They are excellent for designing and planning your code, especially in large projects where you need a clear and consistent structure.
+- **Preventing Instantiation:** Making a class abstract prevents it from being instantiated, which can be useful when you have a class that is designed only as a base class.
