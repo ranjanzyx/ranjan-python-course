@@ -62,19 +62,19 @@
 
 **Day 11:** Functions: First-Class Functions, Nested Functions, Lambda Functions and Closures
 
-**Day 12:** Functions: Factory Functions, Decorators and functools
+**Day 12:** Functions: Decorators, Parameterised Decorators, Stacked Decorators and functools
 
-**Day 13**: Comprehensions (List, Set, Dictionary), Iterators and Generators 
+**Day 13**: File Handling - 1
 
-**Day 14**: File I/O: Reading and Writing Files
+**Day 14**: File Handling - 2
 
-**Day 15**: Python and DB Interaction 
+**Day 15**: - 
 
 ### Week 4: Object-Oriented Programming
 
-**Day 16**: Classes and Objects
+**Day 16**: Classes and Objects - 1
 
-**Day 17**: Inheritance and Polymorphism
+**Day 17**: Classes and Objects - 2
 
 **Day 18**: Encapsulation and Abstraction
 
@@ -84,7 +84,7 @@
 
 ### Week 5: Python Ecosystem and Best Practices
 
-**Day 21**: Introduction to Regex
+**Day 21**: Introduction to Regex, manipulating file content using regex
 
 **Day 22**: Modules and Packages, working with external libraries (e.g., requests, NumPy)
 
