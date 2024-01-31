@@ -1,4 +1,4 @@
-##  Introduction to Object-Oriented Programming (OOP)
+#  Introduction to Object-Oriented Programming (OOP)
 - Imagine you're a chef in a kitchen. 
 - In this kitchen, you have different types of utensils and ingredients. 
 - Each type of utensil (like a frying pan or a spatula) has specific uses and ways to be handled, and each ingredient (like an onion or tomato) has its characteristics and ways it can be used. 
@@ -64,7 +64,7 @@ In summary, OOP is like running a kitchen, where:
 - recipes are classes, and 
 - the principles of OOP help in making the kitchen (software) more efficient, easier to manage, and scalable.
 
-# OOPS and Python:
+## OOPS and Python:
 - Let's continue with the kitchen analogy to explain `classes` and `objects` in Python, along with some core concepts like the `__init__` method, instance variables, and methods.
 
 ## Defining Classes
@@ -95,7 +95,6 @@ my_cake = Cake("chocolate")
 ```
 In this code:
 `my_cake` is an instance (object) of the `Cake` class. You've made a chocolate cake!
-
 
 ## The `__init__` Method
 - The `__init__` method is like the part of the recipe that tells you what ingredients to prepare before you start following the steps of the recipe. 
@@ -138,7 +137,7 @@ my_cake.describe()  # Output: This is a chocolate cake.
 - You have your recipe (class), your ingredients (instance variables), and your cooking steps (instance methods).
 - And just like in cooking, you can create many different cakes (objects) from the same recipe (class), each with its own specific flavors and decorations (attributes and methods).
 
-## Introduction to Class Variables and Class Methods
+## Class Variables and Class Methods
 - In object-oriented programming, especially in Python, classes act as blueprints for creating objects. 
 - Classes can contain two main types of components: **variables** and **methods**. 
 - Among these, there are distinctions based on whether they belong to the class itself or to instances of the class. 
@@ -156,7 +155,6 @@ my_cake.describe()  # Output: This is a chocolate cake.
 - Instead, they operate at the class level, affecting all instances of the class.
 
 Let's consider the Cake class:
-
 ```python
 class Cake:
     shape = "round"  # Class variable: Shared among all cakes
@@ -336,7 +334,7 @@ print(cake.__secret_sauce)  # This will raise an error, as secret sauce is priva
 print(cake._Cake__secret_sauce)  # This will work, but it's highly discouraged as it breaks the convention of private members.
 ```
 
-# Inheritance
+## Inheritance
 - Inheritance is a fundamental concept in object-oriented programming (OOP), allowing one class to inherit attributes and methods from another. 
 - In Python, inheritance is used to create a new class that is a modified version of an existing class. 
 - This promotes code reuse and establishes a hierarchical relationship between classes.
@@ -375,7 +373,6 @@ In this example:
 - `WeddingCake` has its own attribute `tiers`.
 - `WeddingCake` overrides the `bake` method to provide a specialized message for a wedding cake.
 
-
 ### Types of Inheritance
 1. **Single Inheritance:** A derived class inherits from one base class.
 2. **Multiple Inheritance:** A derived class inherits from multiple base classes.
@@ -391,7 +388,6 @@ In this example:
 - `super()` is used to call methods from the base class:
 - In single inheritance, it's straightforward: super() refers to the base class.
 - In multiple inheritance, super() follows the MRO to determine the next class to look for methods.
-
 
 ### Single Inheritance
 - A derived class inherits from one base class.
@@ -563,3 +559,661 @@ In this example:
 - **Ensuring Consistency:** Abstract classes ensure that all subclasses built from them implement the same set of methods.
 - **Design and Planning:** They are excellent for designing and planning your code, especially in large projects where you need a clear and consistent structure.
 - **Preventing Instantiation:** Making a class abstract prevents it from being instantiated, which can be useful when you have a class that is designed only as a base class.
+
+## Decorators in Relation to OOP in Python
+- Decorators are a powerful feature in Python that allow you to modify or enhance the behavior of functions or methods. 
+- In the context of OOP, decorators can be incredibly useful for adding functionality to methods and classes or for modifying their behavior without altering the original code structure.
+  - Function Decorators
+  - Method Decorators
+  - Class Decorators
+
+### Function Decorators
+- Function decorators are applied to standalone functions. 
+- They are a type of higher-order function that take a function as an argument and return a new function, enhancing or modifying the original function's behavior.
+```python
+def add_garnish(func):
+    def wrapper():
+        print("Adding garnish.")
+        func()
+        print("Garnish added.")
+    return wrapper
+
+@add_garnish
+def cook_dish():
+    print("Preparing Cake.")
+
+cook_dish()
+# Output:
+# Adding garnish.
+# Preparing Cake.
+# Garnish added.
+```
+In this example, `add_garnish` enhances `cook_dish` without modifying its internal code.
+
+### Method Decorators
+- Method decorators work similarly to function decorators but are used within classes. 
+- They can modify the behavior of **class methods**. 
+- Common built-in method decorators in Python are `@classmethod`, `@staticmethod`, and `@property`.
+
+### The `@property` Decorator in Detail
+- The `@property` decorator is a built-in decorator in Python for creating and managing properties in an OOP manner. 
+- It allows for encapsulation by providing a `getter`, `setter`, and `deleter` for managing access to private attributes.
+
+`Getter:` Defined by `@property`, it allows access to the attribute value.
+`Setter:` Defined by `@property_name.setter`, it allows setting the attribute value with additional logic or validation.
+`Deleter:` Defined by `@property_name.deleter`, it allows for the deletion of the attribute.
+
+```python
+class Cake:
+    """
+    A class representing a Cake.
+
+    Attributes:
+        _flavor (str): The flavor of the cake, intended as a private attribute.
+
+    Methods:
+        flavor: Property method to get or set the cake's flavor.
+    """
+
+    def __init__(self, flavor):
+        self._flavor = flavor
+
+    @property
+    def flavor(self):
+        """
+        The getter method for the flavor property.
+        It's used to get the value of the _flavor attribute.
+        """
+        print("Getting the flavor...")
+        return self._flavor
+
+    @flavor.setter
+    def flavor(self, value):
+        """
+        The setter method for the flavor property.
+        It's used to set the value of the _flavor attribute.
+        This method includes validation to ensure the flavor is a valid string.
+        """
+        print("Setting the flavor...")
+        if isinstance(value, str):
+            self._flavor = value
+        else:
+            raise ValueError("Flavor must be a string.")
+
+    @flavor.deleter
+    def flavor(self):
+        """
+        The deleter method for the flavor property.
+        It's used to delete the _flavor attribute from the instance.
+        """
+        print("Deleting the flavor...")
+        del self._flavor
+
+
+# Creating an instance of Cake with the flavor "chocolate".
+chocolate_cake = Cake("chocolate")
+
+print(chocolate_cake.flavor)  # Output: "Getting the flavor..." "chocolate"
+
+# Setting the flavor of the cake to "vanilla".
+chocolate_cake.flavor = "vanilla"
+# Uncommenting the following line will raise a ValueError: "Flavor must be a string."
+# chocolate_cake.flavor = 123
+print(chocolate_cake.flavor)  # Output: "Setting the flavor..." "Getting the flavor..." "vanilla"
+
+# Deleting the flavor of the cake.
+del chocolate_cake.flavor
+# Trying to access the flavor after deletion will raise an AttributeError.
+try:
+    print(chocolate_cake.flavor)
+except AttributeError as e:
+    print(e)  # Output: 'Cake' object has no attribute '_flavor'
+```
+
+- The `@property` decorator ensures the flavor attribute is accessed in a controlled manner.
+- The `getter` method allows reading the `_flavor` attribute without direct access.
+- The `setter` method validates the value before setting `_flavor`.
+- The `deleter` method allows for the attribute to be deleted from the instance.
+
+### Class Decorators
+- Class decorators are applied to classes and can modify or enhance the entire class behavior.
+```python
+def singleton(cls):
+    instances = {}
+    def wrapper(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return wrapper
+
+@singleton
+class Cake:
+    def __init__(self, flavor):
+        self._flavor = flavor
+
+cake1 = Cake("chocolate")
+cake2 = Cake("vanilla")
+
+print(cake1 is cake2)  # Output: True
+print(cake1._flavor)   # Output: chocolate
+print(cake2._flavor)   # Output: chocolate
+```
+Explanation
+- **Initialization:** When the Cake class is first instantiated (`cake1 = Cake("chocolate")`), the singleton decorator checks if an instance of Cake already exists.
+- **Instance Creation:** As there's no instance yet, it creates one and stores it in the instances dictionary.
+- **Subsequent Instantiation:** When a new Cake instance is attempted to be created (`cake2 = Cake("vanilla")`), the decorator provides the already created instance.
+- **Single Instance Enforcement:** Both cake1 and cake2 reference the same instance. Even though we attempted to instantiate cake2 with "vanilla", the singleton decorator ensures that only the first instance ("chocolate") is used.
+
+Real World Example
+```python
+def singleton(cls):
+    instances = {}
+    def wrapper(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return wrapper
+
+@singleton
+class Database:
+    pass
+```
+
+## Polymorphism
+- Polymorphism, meaning "many forms," is a concept where a name (like a method name) can have multiple forms or behaviors. 
+- It allows objects of different classes to be treated as objects of a common superclass.
+  - Method Overriding 
+  - Operator Overloading
+  - Duck Typing
+
+### Method Overriding 
+- The same method or property name can be used in different classes, and each class can provide its own implementation of the method or property.
+- This is particularly powerful in combination with inheritance, where a child class can override or extend the behavior of a parent class.
+
+```python
+# Base Class
+class Cake:
+    def __init__(self, flavor):
+        self._flavor = flavor
+
+    def serve(self):
+        return f"Serving a basic {self._flavor} cake."
+
+# Subclass 1: Cupcake
+class Cupcake(Cake):
+    def serve(self):
+        return f"Serving a {self._flavor} cupcake."
+
+# Subclass 2: Pancake
+class Pancake(Cake):
+    def serve(self):
+        return f"Serving {self._flavor} pancakes."
+
+# We can now create instances of Cake, Cupcake, and Pancake and 
+# call the serve method on each, observing how the same method name behaves differently based on the object's class.
+
+basic_cake = Cake("chocolate")
+print(basic_cake.serve())  # Output: "Serving a basic chocolate cake."
+
+choco_cupcake = Cupcake("chocolate")
+print(choco_cupcake.serve())  # Output: "Serving a chocolate cupcake."
+
+banana_pancake = Pancake("banana")
+print(banana_pancake.serve())  # Output: "Serving banana pancakes."
+```
+- In the above code, even though each object is calling a method named serve, the actual method that gets called depends on the type of the object, demonstrating polymorphism.
+
+### Operator Overloading
+- Operator overloading allows the same operator to have different meanings according to the context. 
+- Here, let's overload the `+` operator for the Cake class to combine flavors.
+```python
+class Cake:
+    def __init__(self, flavor):
+        self._flavor = flavor
+
+    def __add__(self, other):
+        # Overloading the + operator to combine cake flavors
+        return Cake(f"{self._flavor}-{other._flavor}")
+    
+    def serve(self):
+        return f"Serving a basic {self._flavor} cake."
+
+chocolate_cake = Cake("chocolate")
+vanilla_cake = Cake("vanilla")
+
+combined_cake = chocolate_cake + vanilla_cake
+print(combined_cake.serve())  # Output: "Serving a basic chocolate-vanilla cake."
+```
+- In this example, the `+` operator is overloaded to combine the flavors of two cakes, creating a **new Cake instance** with the combined flavor.
+
+### Duck Typing
+- Duck Typing is a concept related to **dynamic typing**, where the class or type of an object is less important than the methods it defines or the attributes it holds. 
+- "If it looks like a duck and quacks like a duck, it's a duck."
+```python
+class Cake:
+    def serve(self):
+        return f"Serving a cake."
+
+class Cookie:
+    def serve(self):
+        return "Serving a cookie."
+
+def bake(cake):
+    print(cake.serve())
+
+chocolate_cake = Cake()
+choco_chip_cookie = Cookie()
+
+bake(chocolate_cake)  # Output: Serving a cake.
+bake(choco_chip_cookie)  # Output: Serving a cookie.
+```
+In the above example, 
+- the `bake` function expects an object that has a serve method. 
+- It doesn't care about the class of the object. 
+- Both `Cake` and `Cookie` have a serve method, so they can both be passed to the bake function. 
+- This is an example of duck typing, where the type of the object is not checked, just the presence of a specific method or attribute.
+
+## Encapsulation:
+- Encapsulation is one of the fundamental concepts in object-oriented programming (OOP). 
+- It describes the idea of bundling data (attributes) and methods (functions that operate on the data) into a single unit or class. 
+- Additionally, it restricts direct access to some of an object's components, which is a way of preventing accidental interference and misuse of the internal methods and data.
+
+### Importance of Hiding Data:
+- **Security:** Hiding the internal state of the object protects its integrity by preventing outside interference and misuse.
+- **Simplicity:** A well-encapsulated class exposes only what is necessary to the user. This means the user can use the class without understanding the complex internal workings.
+- **Flexibility and Maintainability:** The implementation of the class can be changed without affecting the parts of the program that use it.
+### Implementing Encapsulation in Python
+- Python doesn't have the private keyword, unlike some other object-oriented languages, but encapsulation can be achieved using conventions and features of the language.
+- **Using Single Underscore Prefix (_)**
+  - A single underscore prefix in Python is a convention to indicate to the programmer that a variable or method should be treated as "protected". 
+  - It tells others "please don't use this unless you are a subclass". 
+  - However, it is still accessible, which means it's more about trust and convention than enforcement.
+
+- **Using Double Underscore Prefix (__)**
+- Double underscore prefix causes **name mangling**. 
+- Python interpreter changes the name of the variable in a way that makes it harder to create subclasses that accidentally override the private methods and attributes of their superclasses. 
+- It's not truly private, but it's a way to avoid accidental access.
+
+Example with the Cake Class to illustrate encapsulation:
+```python
+class Cake:
+    def __init__(self, flavor):
+        self._flavor = flavor  # Protected attribute
+
+    @property
+    def flavor(self):
+        """Get the flavor of the cake."""
+        return self._flavor
+
+    @flavor.setter
+    def flavor(self, value):
+        """Set the flavor of the cake. Only allows string values."""
+        if isinstance(value, str):
+            self._flavor = value
+        else:
+            raise ValueError("Flavor must be a string.")
+
+    def _bake(self):
+        """Protected method to bake the cake."""
+        print(f"Baking the {self._flavor} cake.")
+
+    def serve(self):
+        """Public method to serve the cake."""
+        self._bake()  # Calling the protected method
+        return f"Serving the {self._flavor} cake."
+```
+In this example:
+- The `_flavor` attribute is intended to be a protected attribute. 
+- It's not meant to be accessed directly from outside the class; instead, it's accessed and modified through the flavor property.
+- The `_bake` method is a protected method, signifying that it's intended for internal use within the class or subclasses, not for external use.
+- The `serve` method is a public method that internally uses the protected _bake method.
+- Users of the `Cake` class are meant to call serve without needing to know about the internal _bake method.
+
+---
+
+## Composition(has-a relationship) vs Inheritance(is-a relationship):
+- **Inheritance** 
+  - It is a mechanism that allows a new class to inherit attributes and methods from an existing class. 
+  - The class that inherits is called the subclass (or derived class), and the class it inherits from is called the superclass (or base class).
+
+```python
+# Base class
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
+
+    def serve(self):
+        return f"Serving a {self.flavor} cake."
+
+# Subclass 1
+class Cupcake(Cake):
+    def serve(self):
+        return f"Serving a {self.flavor} cupcake."
+
+# Subclass 2
+class Pancake(Cake):
+    def serve(self):
+        return f"Serving a stack of {self.flavor} pancakes."
+``` 
+- In this example, Cupcake and Pancake are subclasses of Cake. 
+- They inherit the flavor attribute and override the serve method to provide their specific serving style.
+
+- **Composition**
+  - Composition is a design principle where a class is composed of one or more objects from other classes. 
+  - This is often described as a **"has-a"** relationship. 
+  - Composition allows you to model complex types by combining objects of other types, meaning that a class can contain instances of other classes as members.
+
+Suppose we have a class Bakery that has a list of Cake objects.
+
+```python
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
+
+    def serve(self):
+        return f"Serving a {self.flavor} cake."
+
+# Subclass 1
+class Cupcake(Cake):
+    def serve(self):
+        return f"Serving a {self.flavor} cupcake."
+    
+class Bakery:
+    def __init__(self):
+        self.cakes = []
+
+    def add_cake(self, cake):
+        self.cakes.append(cake)
+
+    def show_menu(self):
+        for cake in self.cakes:
+            print(cake.serve())
+
+# Creating instances of Cake
+chocolate_cake = Cake("Chocolate")
+vanilla_cupcake = Cupcake("Vanilla")
+
+# Creating a Bakery instance
+local_bakery = Bakery()
+
+# Adding cakes to the bakery
+local_bakery.add_cake(chocolate_cake)
+local_bakery.add_cake(vanilla_cupcake)
+
+# Showing the bakery's menu
+local_bakery.show_menu()
+```
+In this example, 
+- the Bakery class doesn't inherit from the Cake class but instead has a list of Cake objects. 
+- This is a classic example of composition. 
+- The Bakery class is composed of Cake objects and can use their methods and attributes.
+
+## Mixin Classes:
+- Mixins are a type of class in object-oriented programming, particularly in Python, that are used to offer reusable functionalities for other classes. 
+- Unlike traditional base classes, mixins don't define a new type but provide methods that can be used by other classes without requiring inheritance from a common ancestor, apart from object. 
+- This design pattern allows behaviors to be added to classes in a modular and composable way.
+
+### Characteristics of Mixins:
+- **No Direct Instantiation:** Mixins are not meant to stand on their own. They are meant to be inherited by another class that seeks to use the functionality they provide.
+- **Single Responsibility:** Each mixin is focused on a single, specific task or feature, adhering to the Single Responsibility Principle.
+- **No Internal State:** Ideally, mixins don't maintain a state of their own. They provide methods that act upon the state of the classes they are mixed into.
+
+### Benefits of Mixins:
+- **Reusability:** Code can be reused across different classes.
+- **Modularity:** Functions are packaged into separate, interchangeable modules.
+- **Avoid Complexity of Multiple Inheritance:** Mixins can be used to simulate multiple inheritance in languages that don't support it natively, like Java.
+
+Example Using Mixins with the Cake Class:
+- Suppose we want to add different functionalities to the `Cake` class like `FrostingMixin` for adding frosting and `DecorationMixin` for adding decorations. 
+- Instead of directly adding these methods to the Cake class or creating a complex inheritance structure, we can define mixins.
+
+```python
+class FrostingMixin:
+    def add_frosting(self, frosting):
+        print(f"Adding {frosting} frosting to the cake.")
+
+class DecorationMixin:
+    def add_decoration(self, decoration):
+        print(f"Decorating the cake with {decoration}.")
+
+class Cake:
+    def __init__(self, flavor):
+        self.flavor = flavor
+
+    def serve(self):
+        return f"Serving a {self.flavor} cake."
+
+# Extending the Cake class with mixins
+class FrostedCake(Cake, FrostingMixin, DecorationMixin):
+    pass
+
+# Creating an instance of FrostedCake
+birthday_cake = FrostedCake("chocolate")
+print(birthday_cake.serve())  # Serving a chocolate cake.
+birthday_cake.add_frosting("chocolate")  # Adding chocolate frosting to the cake.
+birthday_cake.add_decoration("candles")  # Decorating the cake with candles.
+```
+In this example, 
+- `FrostingMixin` and `DecorationMixin` are mixins added to the `FrostedCake` class. 
+- The `FrostedCake` class can now use the methods defined in both mixins, enhancing its functionality. 
+- The mixins can also be used by other classes that might need these specific functionalities, promoting code reuse and modularity.
+
+---
+
+## Exception Handling
+- Exception handling in Python is a mechanism that allows you to catch and respond to errors that occur during the execution of a program. 
+- Python uses `try-except` blocks to handle exceptions, ensuring that the program can continue to run or gracefully terminate even when an error is encountered.
+- Basic Structure of Exception Handling:
+```python
+try:
+    # Code block where exceptions might occur
+except SomeException:
+    # Code to handle the exception
+```
+
+Cake Class with Exception Handling
+```python
+class Cake:
+    def __init__(self, flavor):
+        self._set_flavor(flavor)
+
+    def _set_flavor(self, flavor):
+        try:
+            if not isinstance(flavor, str):
+                raise TypeError("Flavor must be a string.")
+            if flavor == "":
+                raise ValueError("Flavor cannot be empty.")
+            self._flavor = flavor
+        except (TypeError, ValueError) as e:
+            print(f"Error: {e}")
+            self._flavor = None
+
+    def serve(self):
+        if self._flavor is not None:
+            return f"Serving a {self._flavor} cake."
+        else:
+            return "Cake has no flavor."
+
+# Using the Cake class
+try:
+    chocolate_cake = Cake("chocolate")
+    print(chocolate_cake.serve())  # Output: "Serving a chocolate cake."
+
+    no_flavor_cake = Cake("")  # Will raise ValueError and be caught
+    print(no_flavor_cake.serve())  # Output: "Cake has no flavor."
+    
+    number_flavor_cake = Cake(123)  # Will raise TypeError and be caught
+    print(number_flavor_cake.serve())  # Output: "Cake has no flavor."
+except Exception as e:
+    print(f"An error occurred: {e}")
+```
+
+In this example, 
+- the `_set_flavor` method includes a try-except block to handle cases where the flavor might not be a string or is an empty string. 
+- If an exception occurs, it prints an error message and sets the _flavor attribute to None.
+
+---
+
+## Descriptors
+- Descriptors are a powerful feature in Python that allow you to create managed attributes. 
+- In object-oriented programming, descriptors are objects that implement a protocol of special methods (`__get__`, `__set__`, and `__delete__`). 
+- These methods are triggered upon attribute access, making descriptors an essential part of Python's machinery for building classes.
+
+### Components of Descriptors
+`__get__(self, obj, type=None):` 
+- Called to get the attribute value. 
+- The obj is the instance being manipulated, and the type is the type of the object.
+
+`__set__(self, obj, value):` 
+- Called to set the attribute value. 
+- The obj is the instance, and the value is the value being assigned to the attribute.
+
+`__delete__(self, obj):` Called to delete the attribute.
+
+A descriptor is:
+- **Data Descriptor:** If it implements both __get__ and __set__.
+- **Non-data Descriptor:** If it only implements __get__.
+
+Let's use descriptors to manage the flavor attribute of the Cake class, ensuring the flavor name is always a string and not empty.
+
+**Flavor Descriptor**
+```python
+class FlavorDescriptor:
+    def __init__(self):
+        self._flavor = None
+
+    def __get__(self, obj, objtype=None):
+        return self._flavor
+
+    def __set__(self, obj, value):
+        if not isinstance(value, str):
+            raise TypeError("Flavor must be a string.")
+        if value == "":
+            raise ValueError("Flavor cannot be empty.")
+        self._flavor = value
+
+class Cake:
+    flavor = FlavorDescriptor()
+
+    def __init__(self, flavor):
+        self.flavor = flavor  # Will trigger __set__ in FlavorDescriptor
+
+    def serve(self):
+        return f"Serving a {self.flavor} cake."
+
+chocolate_cake = Cake("chocolate")
+print(chocolate_cake.serve())  # Output: "Serving a chocolate cake."
+
+try:
+    chocolate_cake.flavor = ""  # Will raise ValueError
+except ValueError as e:
+    print(e)  # Output: "Flavor cannot be empty."
+
+try:
+    chocolate_cake.flavor = 123  # Will raise TypeError
+except TypeError as e:
+    print(e)  # Output: "Flavor must be a string."
+```
+In this example, 
+- `FlavorDescriptor` manages the `flavor` attribute. 
+- When `flavor` is assigned in the `Cake` class, the `__set__` method of `FlavorDescriptor` is called, enforcing the rules that the flavor must be a non-empty string.
+
+### Conclusion
+- Descriptors provide a powerful way to reuse property logic and encapsulate behavior in attributes. 
+- By defining a protocol of `__get__`, `__set__`, and `__delete__` methods, descriptors give you precise control over how attributes are accessed and modified, promoting clean and maintainable code. 
+- The Cake class example illustrates how descriptors can enforce data integrity and encapsulate attribute behavior, making them a valuable tool in the Python programmer's toolkit.
+
+
+
+
+Practical Example - Normalizers
+
+```python
+from datetime import datetime
+from abc import ABC, abstractmethod
+import re
+
+class Normalizer(ABC):
+    @abstractmethod
+    def normalize(self, data):
+        """
+        Abstract method to be overridden in derived classes.
+        :param data: The input data to be normalized.
+        """
+        pass
+
+class CurrencyNormalizer(Normalizer):
+    def normalize(self, data):
+        """
+        Provides a basic structure for currency normalization.
+        Subclasses should provide specific implementations.
+        :param data: The currency data to be normalized.
+        :return: Normalized currency data as a string.
+        """
+        raise NotImplementedError("Subclasses should implement this!")
+
+class USCurrencyNormalizer(CurrencyNormalizer):
+    def normalize(self, data):
+        """
+        Normalizes various US currency formats into a standard format (e.g., "USD 1,000.00").
+        :param data: The currency data to be normalized.
+        :return: Normalized currency data as a string in the format "USD X,XXX.XX".
+        """
+        # Remove any non-numeric and non-decimal characters
+        numeric_data = re.sub(r'[^\d.]', '', data)
+
+        # Convert to float and format to two decimal places
+        formatted_currency = f"USD {float(numeric_data):,.2f}"
+
+        return formatted_currency
+
+class DateNormalizer(Normalizer):
+    def normalize(self, data):
+        """
+        Normalizes date data to a more readable format "DDth Month, YYYY".
+        :param data: The date data in "YYYY-MM-DD" format.
+        :return: Normalized date data as a string.
+        """
+        date_object = datetime.strptime(data, "%Y-%m-%d")
+        readable_date = date_object.strftime("%dth %B, %Y")
+        return readable_date
+
+class USDateNormalizer(DateNormalizer):
+    def normalize(self, data):
+        """
+        Specifically normalizes date data to US format "MM/DD/YYYY".
+        :param data: The date data in "YYYY-MM-DD" format.
+        :return: Normalized US date as a string.
+        """
+        date_object = datetime.strptime(data, "%Y-%m-%d")
+        us_date = date_object.strftime("%m/%d/%Y")
+        return us_date
+
+class IndiaDateNormalizer(DateNormalizer):
+    def normalize(self, data):
+        """
+        Specifically normalizes date data to Indian format "DD/MM/YYYY".
+        :param data: The date data in "YYYY-MM-DD" format.
+        :return: Normalized Indian date as a string.
+        """
+        date_object = datetime.strptime(data, "%Y-%m-%d")
+        india_date = date_object.strftime("%d/%m/%Y")
+        return india_date
+
+# Creating instances
+us_currency_normalizer = USCurrencyNormalizer()
+date_normalizer = DateNormalizer()
+us_date_normalizer = USDateNormalizer()
+india_date_normalizer = IndiaDateNormalizer()
+
+# Normalizing data
+normalized_us_currency = us_currency_normalizer.normalize("$1,234.50")  # Output: "USD 1,234.50"
+general_date = date_normalizer.normalize("2024-01-31")                   # Output: "31st January, 2024"
+us_date = us_date_normalizer.normalize("2024-01-31")                     # Output: "01/31/2024"
+india_date = india_date_normalizer.normalize("2024-01-31")               # Output: "31/01/2024"
+
+print(normalized_us_currency)  # Output: "USD 1,234.50"
+print(general_date)           # Output: "31st January, 2024"
+print(us_date)                # Output: "01/31/2024"
+print(india_date)             # Output: "31/01/2024"
+```
