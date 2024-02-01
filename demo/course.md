@@ -64,21 +64,21 @@
 
 **Day 12:** Functions: Decorators, Parameterised Decorators, Stacked Decorators and functools
 
-**Day 13**: File Handling - 1
+**Day 13**: FileHandling-1: File Types, Openin/Reading/Writing Files, os module, File paths, Exception Handling 
 
-**Day 14**: File Handling - 2
+**Day 14**: FileHandling-2: File Metadata, Context Managers, glob, fnmatch, Encoding/Decoding, Compression, tempfile module
 
 **Day 15**: - 
 
 ### Week 4: Object-Oriented Programming
 
-**Day 16**: Classes and Objects - 1
+**Day 16**: OOP-1: Classes, Objects, Class Variables, Class Methods, Static Methods, Private Methods
 
-**Day 17**: Classes and Objects - 2
+**Day 17**: OOP-2: Inheritance, Types of inheritance, MRO, Method Overriding 
 
-**Day 18**: Encapsulation and Abstraction
+**Day 18**: OOP-3: Abstract Classes, Polymorphism, Operator Overloading, Duck Typing
 
-**Day 19**: Special Methods (Magic Methods)
+**Day 19**: OOP-4: Composition, Mixins, Class Decorators, Exception Handling, Practical Scenario
 
 **Day 20**: Practical OOP Concepts
 
