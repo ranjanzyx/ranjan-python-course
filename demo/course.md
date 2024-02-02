@@ -80,7 +80,7 @@
 
 **Day 19**: OOP-4: Composition, Mixins, Class Decorators, Exception Handling, Practical Scenario
 
-**Day 20**: Practical OOP Concepts
+**Day 20**: -
 
 ### Week 5: Python Ecosystem and Best Practices
 

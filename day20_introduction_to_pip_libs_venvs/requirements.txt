@@ -1,0 +1,29 @@
+# Exact version number (e.g., Django version 3.1.7)
+Django==3.1.7
+
+# No version specified (pip will install the latest version available)
+requests
+
+# Range of version numbers (e.g., Flask version >= 1.1.0 but < 2.0.0)
+Flask>=1.1.0,<2.0.0
+
+# Minimum version number (e.g., pandas version at least 1.2.3)
+pandas>=1.2.3
+
+# A package that has dependencies on other packages (e.g., tensorflow)
+tensorflow>=2.4.0
+
+# A specific sub-dependency version (e.g., numpy version required by tensorflow)
+numpy==1.19.5
+
+# Another package with a minimum version number
+scipy>=1.5.4
+
+# A package with a version range
+matplotlib>=3.3.0,<3.4.0
+
+# mxnet for Linux (no version specified, so the latest version will be installed)
+mxnet; platform_system == "Linux"
+
+# mxnet-mkl for Windows (no version specified, so the latest version will be installed)
+mxnet-mkl; platform_system == "Windows"
