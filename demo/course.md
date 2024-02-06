@@ -84,11 +84,11 @@
 
 ### Week 5: Python Ecosystem and Best Practices
 
-**Day 21**: Introduction to Regex, manipulating file content using regex
+**Day 21**: Python Ecosystem - 2: Wheel files, Virtual Envs using venv, Modules and Packages 
 
-**Day 22**: Modules and Packages, working with external libraries (e.g., requests, NumPy)
+**Day 22**: Concurrent Programming in Python: Multithreading and Multiprocessing
 
-**Day 23**: Introduction to pip, libraries/modules, and Virtual Environments
+**Day 23**: Introduction to Regex, manipulating file content using regex
 
 **Day 24**: Introduction to Debugging in Python
 
