@@ -88,7 +88,7 @@
 
 **Day 22**: Concurrent Programming in Python: Multithreading and Multiprocessing
 
-**Day 23**: Introduction to Regex, manipulating file content using regex
+**Day 23**: Introduction to Datascince, Numpy and Pandas
 
 **Day 24**: Introduction to Debugging in Python
 
