@@ -88,11 +88,11 @@
 
 **Day 22**: Concurrent Programming in Python: Multithreading and Multiprocessing
 
-**Day 23**: Introduction to Datascince, Numpy and Pandas
+**Day 23**: Introduction to Datascience, Numpy and Pandas
 
-**Day 24**: Introduction to Debugging in Python
+**Day 24**: Introduction to testing, unittest, pytest
 
-**Day 25**: Introduction to Testing in Python (unittest, pytest)
+**Day 25**: Introduction to DB handling, DB API (sqlite3), ORM(sqlalchemy)
 
 ### Week 6: Introduction to Frameworks and Project Implementation
 
@@ -101,4 +101,3 @@
 **Day 27-29:** Mini Project (News Aggregator)
 
 **Days 30:** Resume Building and Final QnA
-
