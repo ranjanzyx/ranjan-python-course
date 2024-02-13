@@ -96,8 +96,10 @@
 
 ### Week 6: Introduction to Frameworks and Project Implementation
 
-**Day 26:** Introduction to Django
+**Day 26:** Django Project - 1: Introduction to Web Frameworks, Django
 
-**Day 27-29:** Mini Project (News Aggregator)
+**Day 27:** Django Project - 2: News Aggregator Project Creation, Fetching of articles from various sources
+
+**Day 28-29:** Mini Project (News Aggregator)
 
 **Days 30:** Resume Building and Final QnA
