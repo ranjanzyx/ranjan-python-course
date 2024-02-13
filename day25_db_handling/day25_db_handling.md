@@ -282,8 +282,9 @@ finally:
   - First, define your database model by extending the base class provided by SQLAlchemy's ORM.
 ```python
 from sqlalchemy import create_engine, Column, String, Numeric, Integer
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+Base = declarative_base()
 
 Base = declarative_base()
 
