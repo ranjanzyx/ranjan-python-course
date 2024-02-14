@@ -1,12 +1,52 @@
 ## Project Overview: News Aggregator Website
 In this project, we'll create a News Aggregator Website with four key objectives:
 
-- **Collect XML Feeds:** We'll start by fetching news articles from various XML-based RSS feeds
+- **Collect RSS Feeds:** We'll start by fetching news articles from various XML-based RSS feeds
   - https://www.wired.com/feed/rss
   - https://www.theguardian.com/world/rss
-- **Store XML Feeds:** Next, we'll store these articles in a database.
+- **Store RSS Feeds:** Next, we'll store these articles in a database.
 - **Remove Duplicates:** We'll implement logic to identify and remove duplicate articles.
 - **Render on UI:** Finally, we'll display the articles in web interface, sorted by publication time. 
+
+### What is RSS feed?
+This is how an item looks like from https://www.wired.com/feed/rss
+```xml
+<item>
+<title>A Backroom Deal Looms Over Section 702 Surveillance Fight</title>
+<link>https://www.wired.com/story/section-702-reform-backroom-deal/</link>
+<guid isPermaLink="false">65ca42ffce0a0eda3d6718a8</guid>
+<pubDate>Mon, 12 Feb 2024 19:15:40 +0000</pubDate>
+<media:content/>
+<description>Top congressional lawmakers are meeting in private to discuss the future of a widely unpopular surveillance program, worrying members devoted to reforming Section 702.</description>
+<category>Security</category>
+<category>Security / Privacy</category>
+<category>Security / Security News</category>
+<category>Politics / Policy</category>
+<media:keywords>surveillance, privacy, FBI, NSA, congress</media:keywords>
+<dc:creator>Dell Cameron</dc:creator>
+<dc:publisher>Condé Nast</dc:publisher>
+<dc:subject>Cloakroom & Dagger </dc:subject>
+<media:thumbnail url="https://media.wired.com/photos/65ca464cb9f47e3f10ce2b7e/master/pass/Backroom-Deal-Eyed-Suspiciously-in-US-Surveillance-Fight-Security-GettyImages-1988344159.jpg" width="2400" height="1600"/>
+</item>
+```
+- RSS, which stands for **Really Simple Syndication** or **Rich Site Summary**, is a type of web feed that allows users and applications to access updates to online content in a standardized, computer-readable format. 
+- These feeds can, for example, allow a user to keep track of many different websites in a single news aggregator.
+
+- The format of the item shown from Wired's RSS feed is indeed a standard format. 
+- Here's a breakdown of the common elements in an RSS feed item:
+
+`<title>`: The title of the content (in this case, an article).  
+`<link>`: The URL to the full content.  
+`<guid>`: A unique identifier for the item. The isPermaLink attribute indicates whether the GUID is a permanent URL or not.  
+`<pubDate>`: The publication date and time of the content.  
+`<media:content>`: This element is often used to include media like images, videos, etc., within the feed.  
+`<description>`: A brief summary or description of the content.  
+`<category>`: A tag or category associated with the content. An item can have multiple category elements.  
+`<media:keywords>`: Keywords associated with the item, similar to tags.  
+`<dc:creator>`: The author of the content.  
+`<dc:publisher>`: The publisher of the content.  
+`<dc:subject>`: The subject or theme of the content.  
+`<media:thumbnail>`: A URL to a thumbnail image representing the content, along with its dimensions.
 
 ## Creating the first django project
 **Step 1: Install Django**
@@ -209,7 +249,7 @@ urlpatterns = [
 
 - Each component in the Django framework is interconnected, with `urls.py` directing HTTP requests to the appropriate view, the view interacting with the model as needed, and any response typically rendered using a template, which is then served to the client.
 
-### Let's add a new endpoint to gather_feeds
+### Let's add a new endpoint `gather_feeds`
 ```python
 # aggregator/urls.py
 from django.urls import path
@@ -222,6 +262,7 @@ urlpatterns = [
 ```
 
 ```python
+# aggregator/views.py
 import feedparser
 from django.http import HttpResponse, JsonResponse
 import pprint
@@ -243,54 +284,4 @@ def gather_feed(request):
     return HttpResponse(content)
 ```
 
-### What is RSS feed?
-This is how an item looks like from https://www.wired.com/feed/rss
-```xml
-<item>
-<title>A Backroom Deal Looms Over Section 702 Surveillance Fight</title>
-<link>https://www.wired.com/story/section-702-reform-backroom-deal/</link>
-<guid isPermaLink="false">65ca42ffce0a0eda3d6718a8</guid>
-<pubDate>Mon, 12 Feb 2024 19:15:40 +0000</pubDate>
-<media:content/>
-<description>Top congressional lawmakers are meeting in private to discuss the future of a widely unpopular surveillance program, worrying members devoted to reforming Section 702.</description>
-<category>Security</category>
-<category>Security / Privacy</category>
-<category>Security / Security News</category>
-<category>Politics / Policy</category>
-<media:keywords>surveillance, privacy, FBI, NSA, congress</media:keywords>
-<dc:creator>Dell Cameron</dc:creator>
-<dc:publisher>Condé Nast</dc:publisher>
-<dc:subject>Cloakroom & Dagger </dc:subject>
-<media:thumbnail url="https://media.wired.com/photos/65ca464cb9f47e3f10ce2b7e/master/pass/Backroom-Deal-Eyed-Suspiciously-in-US-Surveillance-Fight-Security-GettyImages-1988344159.jpg" width="2400" height="1600"/>
-</item>
-```
-- RSS, which stands for **Really Simple Syndication** or **Rich Site Summary**, is a type of web feed that allows users and applications to access updates to online content in a standardized, computer-readable format. 
-- These feeds can, for example, allow a user to keep track of many different websites in a single news aggregator.
-
-- The format of the item shown from Wired's RSS feed is indeed a standard format. 
-- Here's a breakdown of the common elements in an RSS feed item:
-
-`<title>`: The title of the content (in this case, an article).
-
-`<link>`: The URL to the full content.
-
-`<guid>`: A unique identifier for the item. The isPermaLink attribute indicates whether the GUID is a permanent URL or not.
-
-`<pubDate>`: The publication date and time of the content.
-
-`<media:content>`: This element is often used to include media like images, videos, etc., within the feed.
-
-`<description>`: A brief summary or description of the content.
-
-`<category>`: A tag or category associated with the content. An item can have multiple category elements.
-
-`<media:keywords>`: Keywords associated with the item, similar to tags.
-
-`<dc:creator>`: The author of the content.
-
-`<dc:publisher>`: The publisher of the content.
-
-`<dc:subject>`: The subject or theme of the content.
-
-`<media:thumbnail>`: A URL to a thumbnail image representing the content, along with its dimensions.
 
