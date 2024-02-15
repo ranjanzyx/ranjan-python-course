@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.home),
-    path('gather_feeds/', views.gather_feed),
+    path('gather_feed/', views.gather_feed)
 ]
