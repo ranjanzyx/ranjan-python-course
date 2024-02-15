@@ -260,8 +260,6 @@ urlpatterns = [
     path('gather_feed/', views.gather_feed),
 ]
 ```
-
-
 ---
 ## Step 1: Setting Up a Basic Django View to Display RSS Feed Titles
 #### Objective: 
@@ -341,7 +339,7 @@ def gather_feed(request):
             pub_date = entry.published if 'published' in entry else None
             author = entry.author if 'author' in entry else 'No Author'
 
-            content += f"<div border='1'><strong>Title:</strong> {title}<br>"
+            content += f"<div><strong>Title:</strong> {title}<br>"
             content += f"<strong>Description:</strong> {description}<br>"
             content += f"<strong>Publication Date:</strong> {pub_date}<br>"
             content += f"<strong>Author:</strong> {author}</div><br>"
@@ -369,11 +367,14 @@ def gather_feed(request):
 from django.db import models
 
 class Article(models.Model):
+    guid = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     publication_date = models.DateTimeField()
     author = models.CharField(max_length=100, blank=True, null=True)
     source = models.CharField(max_length=255)
+    url = models.URLField(max_length=500, blank=True, null=True)
+    image_url = models.URLField(max_length=500, blank=True, null=True)
 ```
 
 ```python
@@ -386,82 +387,8 @@ def gather_feed(request):
         'https://feeds.a.dj.com/rss/RSSWorldNews.xml': 'Wall Street Journal - World News',
     }
 
-    content = '<h1>Latest Articles</h1>'
-
     for feed_url, feed_name in feeds.items():
         feed = feedparser.parse(feed_url)
-
-        content += f'<h2>Articles from {feed_name}</h2>'
-
-        for entry in feed.entries:
-            title = entry.title if 'title' in entry else 'No Title'
-            description = entry.summary if 'summary' in entry else 'No Description'
-            publication_date = parser.parse(entry.published) if 'published' in entry else None
-            author = entry.author if 'author' in entry else 'No Author'
-
-            Article.objects.create(
-                title=title,
-                description=description,
-                publication_date=publication_date,
-                author=author,
-                source=feed_name
-            )
-
-            content += f"<div border='1'><strong>Title:</strong> {title}<br>"
-            content += f"<strong>Description:</strong> {description}<br>"
-            content += f"<strong>Publication Date:</strong> {publication_date}<br>"
-            content += f"<strong>Author:</strong> {author}</div><br>"
-
-    return HttpResponse(content)
-```
----
-## Step 4: Ensuring Idempotency by Using GUID for Article Uniqueness
-#### Objective: 
-- Enhance the Django project to ensure idempotency when saving articles to the database by utilizing a globally unique identifier (GUID) for each article. 
-- This step is crucial for avoiding duplicate entries in the database and maintaining data integrity.
-#### Key Concepts Introduced:
-- Understanding and using globally unique identifiers (GUIDs) in data models.
-- Advanced database operations in Django, including conditional updates or creations.
-- Modifying Django models and applying migrations.
-#### Instructions:
-- **Update the Article Model:**
-  - Add a guid field to the Article model to store the unique identifier provided by the RSS feed for each article.
-  - In your `models.py` file within the aggregator app, add a new guid field to the Article model. 
-  - Set `unique=True` for this field to enforce uniqueness at the database level.
-- **Migrate the Database:**
-  - Apply changes to the database schema to include the new guid field in the Article table.
-  - `python manage.py makemigrations`
-  - `python manage.py migrate`
-- **Update the View to Use GUID for Idempotency:**
-  - Modify the `gather_feed` view to utilize the guid field for checking the uniqueness of each article before saving it to the database.
-  - Use Django's `get_or_create` or `update_or_create` method to either update an existing article with the same GUID or create a new one if no article with that GUID exists in the database.
-
-```python
-# aggregator/models.py
-from django.db import models
-
-class Article(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    publication_date = models.DateTimeField()
-    author = models.CharField(max_length=100, blank=True, null=True)
-    source = models.CharField(max_length=255)
-    guid = models.CharField(max_length=255, unique=True)
-```
-```python
-# aggregator/views.py
-def gather_feed(request):
-    feeds = {
-        'https://www.wired.com/feed/rss': 'Wired',
-        'https://feeds.a.dj.com/rss/RSSWorldNews.xml': 'Wall Street Journal - World News',
-    }
-
-    content = '<h1>Latest Articles</h1>'
-
-    for feed_url, feed_name in feeds.items():
-        feed = feedparser.parse(feed_url)
-
-        content += f'<h2>Articles from {feed_name}</h2>'
 
         for entry in feed.entries:
             guid = entry.id
@@ -469,28 +396,42 @@ def gather_feed(request):
             description = entry.summary if 'summary' in entry else 'No Description'
             publication_date = parser.parse(entry.published) if 'published' in entry else None
             author = entry.author if 'author' in entry else 'No Author'
+            url = entry.link if 'link' in entry else None
+            
+            image_url = 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg'
+            if 'media_thumbnail' in entry:
+                image_url = entry.media_thumbnail[0]['url'] if entry.media_thumbnail else image_url
 
-            Article.objects.update_or_create(
+            # Use update_or_create to either update existing or create new article
+            article, created = Article.objects.update_or_create(
                 guid=guid,
                 defaults={
                     'title': title,
                     'description': description,
                     'publication_date': publication_date,
                     'author': author,
-                    'source': feed_name
+                    'source': feed_name,
+                    'url': url,
+                    'image_url': image_url,
                 }
             )
 
-            content += f"<div><strong>GUID:</strong> {guid}<br>"
-            content += f"<strong>Title:</strong> {title}<br>"
-            content += f"<strong>Description:</strong> {description}<br>"
-            content += f"<strong>Publication Date:</strong> {publication_date}<br>"
-            content += f"<strong>Author:</strong> {author}</div><br>"
+    # Build the HTML content to display articles
+    content = '<h1>Articles in Chronological Order</h1>'
+    for article in articles:
+        content += f"<div><strong>GUID:</strong> {article.guid}<br>"
+        content += f"<strong>Publication Date:</strong> {article.publication_date}<br>"
+        content += f"<strong>Source:</strong> {article.source}<br>"
+        content += f"<strong>Title:</strong> {article.title}<br>"
+        content += f"<strong>Author:</strong> {article.author}<br>"
+        content += f"<strong>URL:</strong> <a href='{article.url}'>{article.url}</a><br>"
+        content += f"<strong>Image:</strong> <img src='{article.image_url}' alt='Article Image' style='max-width: 200px;'><br>"
+        content += "</div><br>"
 
     return HttpResponse(content)
 ```
 ---
-## Step 5: Chronological Display of Articles with Date Parsing and Model Update
+## Step 4: Chronological Display of Articles with Date Parsing and Model Update
 #### Objective: 
 - Enhance the Django application to display articles stored in the database in chronological order. 
 - This step involves modifying the view to sort and display articles based on these dates to enhance the user experience by displaying the latest content first.
@@ -511,6 +452,11 @@ def gather_feed(request):
             description = entry.summary if 'summary' in entry else 'No Description'
             publication_date = parser.parse(entry.published) if 'published' in entry else None
             author = entry.author if 'author' in entry else 'No Author'
+            url = entry.link if 'link' in entry else None
+            
+            image_url = 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg'
+            if 'media_thumbnail' in entry:
+                image_url = entry.media_thumbnail[0]['url'] if entry.media_thumbnail else image_url
 
             # Use update_or_create to either update existing or create new article
             article, created = Article.objects.update_or_create(
@@ -521,9 +467,10 @@ def gather_feed(request):
                     'publication_date': publication_date,
                     'author': author,
                     'source': feed_name,
+                    'url': url,
+                    'image_url': image_url,
                 }
             )
-
     # Sort the article chronologically
     articles = Article.objects.all().order_by('-publication_date')
 
@@ -534,8 +481,250 @@ def gather_feed(request):
         content += f"<strong>Publication Date:</strong> {article.publication_date}<br>"
         content += f"<strong>Source:</strong> {article.source}<br>"
         content += f"<strong>Title:</strong> {article.title}<br>"
-        content += f"<strong>Description:</strong> {article.description}<br>"
-        content += f"<strong>Author:</strong> {article.author}</div><br>"
+        content += f"<strong>Author:</strong> {article.author}<br>"
+        content += f"<strong>URL:</strong> <a href='{article.url}'>{article.url}</a><br>"
+        content += f"<strong>Image:</strong> <img src='{article.image_url}' alt='Article Image' style='max-width: 200px;'><br>"
+        content += "</div><br>"
 
     return HttpResponse(content)
 ```
+---
+## Step 6: Integrating Django Templating for Dynamic Content Rendering
+
+### Django Templating System
+- Django's templating system provides a way to generate HTML dynamically. 
+- The templating system allows developers to create templates, which are HTML files that contain variables and tags. 
+- These variables and tags get replaced with actual values when the template is rendered, allowing for dynamic content generation. 
+
+- Here's a breakdown of its main components:
+  - **Templates:** 
+    - HTML files that allow Python-like expressions for dynamic content generation.
+    - Templates can inherit from other templates, allowing for reusable layout and components.
+  - **Variables:** 
+    - Represented by `{{ variable_name }}` syntax. 
+    - When a template is rendered, these placeholders are replaced with values from the context passed to the template.
+  - **Tags:** 
+    - Enclosed within `{% tag %}` syntax, tags provide logic in templates. 
+    - They can perform loops, conditionals, and other control structures within the template. 
+    - Common tags include `{% for %}`, `{% if %}`, and `{% block %}`.
+  - **Context:** 
+    - A dictionary of values that are passed to the template to replace variables. 
+    - The context contains the data the template needs to render the final HTML.
+
+#### Objective: 
+Implement Django's templating system to render articles dynamically, facilitating a more interactive and engaging user interface. 
+This step transitions the web application from generating HTML content directly within views to utilizing templates, enhancing both the developer and user experience.
+#### Key Concepts Introduced:
+- Django Templating Language (DTL)
+- Context Passing
+#### Instructions:
+- Create a directory named `templates` in aggregator app
+- Inside templates, create an HTML file (e.g., articles_list.html). 
+- This file will serve as the template for displaying articles.
+- Write HTML mixed with Django Template Language (DTL) code to dynamically display articles.
+- In `articles_list.html`, use DTL to iterate over articles passed to the template and display their properties (title, description, etc.).
+- We will use a new endpoint - `show_articles` to render the news articles.
+
+```python
+# aggregator/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home),
+    path('gather_feed/', views.gather_feed),
+    path('show_articles/', views.show_articles),
+]
+```
+
+```python
+# aggregator/views.py
+from django.shortcuts import render
+
+def show_articles(request):
+    # Sort the article chronologically
+    articles = Article.objects.all().order_by('-publication_date')
+    return render(request, 'articles_list.html', {'articles': articles})
+
+def home(request):
+    return HttpResponse("Hello, Django!")
+
+def gather_feed(request):
+    # existing code
+```
+
+```html
+<!-- aggregator/templates/articles_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News Aggregator</title>
+</head>
+<body>
+  <h1>Articles in Chronological Order</h1>
+  <div>
+    {% for article in articles %}
+    <div>
+      <h2>{{ article.title }}</h2>
+      <p><strong>Publication Date:</strong> {{ article.publication_date }}</p>
+      <p><strong>Author:</strong> {{ article.author }}</p>
+      <p>{{ article.description }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
+```
+
+```html
+<!-- HTML with CSS styling added -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News Aggregator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ccc;
+      color: #333;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: auto;
+    }
+    .article {
+      background: #fff;
+      margin: 20px 0;
+      padding: 20px;
+    }
+    .article h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    .article-metadata {
+      font-size: 0.8em;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .article p {
+      line-height: 1.6;
+    }
+    .author {
+      font-style: italic;
+      color: #333;
+    }
+    hr {
+      margin-top: 20px;
+      border: 0;
+      height: 1px;
+      background: #ccc;
+    }
+    .image {
+      float: right;
+      margin-left: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Latest News</h1>
+    {% for article in articles %}
+      <div class="article">
+        {% if article.image_url %}
+          <img class="image" src="{{ article.image_url }}" alt="{{ article.title }} image" width="150">
+        {% endif %}
+        <h2>{{ article.title }}</h2>
+        <div class="article-metadata">
+          <span>{{ article.source }} - {{ article.publication_date|date:"F j, Y, g:i a" }}</span>
+        </div>
+        <p>{{ article.description }}</p>
+        <hr>
+        <p class="author">Author: {{ article.author|default:"No Author" }}</p>
+      </div>
+    {% empty %}
+      <p>No articles found.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
+```
+
+---
+## Step 7: Creating a RESTful API Endpoint with Django REST Framework
+### Understanding REST
+![img.png](img.png)
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+- REST stands for Representational State Transfer. 
+- It is an architectural style for designing networked applications. 
+- RESTful applications use HTTP requests to perform CRUD (Create, Read, Update, Delete) operations on data modeled as resources. 
+- Key principles of REST include:
+  - **Statelessness:** 
+    - Each HTTP request from a client to a server must contain all the information the server needs to understand and respond to the request. 
+    - The server does not store any client context between requests.
+  - **Client-Server Architecture:** 
+    - The client and the server operate independently, allowing each to evolve separately.
+  - **Uniform Interface:** 
+    - REST uses standard HTTP methods (GET, POST, PUT, DELETE) in a consistent way to interact with resources, identified by URLs.
+  - **Layered System:** 
+    - Client-server interactions can be mediated by intermediary layers (like proxies or gateways) to enhance scalability, security, or performance.
+### Introduction to Django REST Framework (DRF)
+- Django REST Framework is a powerful toolkit for building Web APIs in Django applications.
+- It simplifies the process of creating RESTful APIs by providing a set of highly customizable tools. 
+- Key features include:
+  - **Serialization:** Converts complex data types (like Django models) into Python data types that can then be easily rendered into JSON, XML, or other content types.
+  - **Browsable API:** Generates web-browsable endpoints for easy testing and debugging of APIs by developers.
+
+#### Objective:
+- Implement a RESTful API endpoint using Django REST Framework (DRF) to retrieve and display articles stored in the Django project's database in JSON format. 
+- This step introduces REST principles, the use of Django REST Framework, and serialization of Django models.
+#### Key Concepts Introduced:
+- REST and RESTful API design principles.
+- Introduction to Django REST Framework (DRF).
+- Serialization of Django models to JSON.
+- Handling HTTP GET requests in Django views.
+#### Instructions:
+1. Create an Article Serializer:
+2. Fetch articles from the database and serialize them into JSON format using the ArticleSerializer.
+
+- **@api_view(['GET']):** 
+  - This decorator indicates that the api function is a view that responds to HTTP GET requests. 
+  - It's part of DRF's way of creating simple, function-based views.
+- **Serializing Articles:** 
+- `serializer = ArticleSerializer(articles, many=True)` creates a `ArticleSerializer` instance, passing the queryset of articles to it. 
+- The `many=True` argument indicates that we're serializing a queryset (multiple instances) rather than a single model instance.
+- **Returning JSON Response:** 
+  - `return Response(serializer.data)` returns a Response object containing the serialized data. 
+  - DRF handles converting this data into JSON format and setting the appropriate HTTP headers.
+
+```python
+# aggregator/views.py
+# ... existing code ..
+from rest_framework import serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+# Create an Article Serializer
+class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
+@api_view(['GET'])
+def api(request):
+    # Fetch articles from the database
+    articles = Article.objects.all().order_by('-publication_date')
+    # Serialize them into JSON format using the ArticleSerializer.
+    serializer = ArticleSerializer(articles, many=True)
+    return Response(serializer.data)
+```
+
