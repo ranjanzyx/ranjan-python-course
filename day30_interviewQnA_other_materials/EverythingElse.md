@@ -1,4 +1,16 @@
-# Python Learning Resources
+## About Me:
+- Name: Soumya Ranjan Das
+- Contact: +91-9553884727
+- Mail: ranjanzyx@gmail.com, soumyazyx@gmail.com
+- LinkedIn: https://www.linkedin.com/in/soumya-ranjan-das-45a73337/
+
+--- 
+## Course Repo:
+- https://github.com/ranjanzyx/ranjan-python-course
+- Please download the content and save it in your local
+
+---
+## Python Learning Resources
 
 ## Interactive Learning Platforms
 ### LeetCode
@@ -26,11 +38,5 @@
 ### Tech With Tim
 - Provides tutorials and projects on Python and its applications.
 - **Tutorials and Projects**: [Visit Channel](https://www.youtube.com/watch?v=OFrLs22MDAw&list=PLzMcBGfZo4-mFu00qxl0a67RhjjZj3jXm)
-
-
-
-
-
-
 
 
