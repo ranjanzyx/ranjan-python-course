@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color: #CCC
+        }
+        .article {
+          background: #fff;
+          margin: 20px 0;
+          padding: 20px;
+        }
+        .title {
+            font-size: 1.5em;
+            margin-bottom:10px;
+        }
+        img {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1> News Articles</h1>
+    <hr>
+    {% for article in articles %}
+      <div class="article">
+        {{ article.source }} <br>
+        <span class="title">{{ article.title }} </span><br>
+        {{ article.description }} <br>
+        {{ article.author }} <br>
+          <img class="image" src="{{article.image_url}}" alt="image">
+      </div>
+    {% endfor %}
+</body>
+</html>
+
+

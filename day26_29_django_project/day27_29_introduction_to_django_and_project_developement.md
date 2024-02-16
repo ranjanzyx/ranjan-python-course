@@ -657,11 +657,11 @@ def gather_feed(request):
 ---
 ## Step 7: Creating a RESTful API Endpoint with Django REST Framework
 ### Understanding REST
-![img.png](img.png)
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-![img_3.png](img_3.png)
-![img_4.png](img_4.png)
+![img.png](images/rest_1.png)
+![img_1.png](images/rest_2.png)
+![img_2.png](images/rest_3.png)
+![img_3.png](images/rest_4.png)
+![img_4.png](images/rest_5.png)
 - REST stands for Representational State Transfer. 
 - It is an architectural style for designing networked applications. 
 - RESTful applications use HTTP requests to perform CRUD (Create, Read, Update, Delete) operations on data modeled as resources. 
