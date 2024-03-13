@@ -312,3 +312,5 @@ TOTAL                      17      0   100%
 - **Miss:** The number of lines of code that were not executed by the tests.
 - **Cover:** The percentage of code that was executed by the tests.
 In the example above, each test file has a 100% coverage rate, meaning all lines of code in those files were executed during testing.
+
+ 
