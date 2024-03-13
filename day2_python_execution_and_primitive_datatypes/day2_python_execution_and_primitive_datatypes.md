@@ -411,13 +411,179 @@ print(isinstance(x, (float, int)))  # Output: True, as x is an instance of int
 - In summary, while type() is used for finding the exact type of an object, isinstance() is used to check if an object is of a specific type or a subclass of that type, making it more suitable in polymorphic scenarios.
 
 ## Interview Questions
-1. What is Dynamic Typing in Python?
-2. Can you explain the difference between static and dynamic typing, using Python as an example for dynamic typing?
-3. How Does Python Handle Different Data Types During Arithmetic Operations?
-4. Give an example of implicit type conversion in Python during an arithmetic operation.
-5. What will happen if you try to concatenate string with integer directly without type conversion?
-6. What Happens When You Perform Integer Division with Zero in Python?
-7. Explain the Use of the type() and isinstance() Functions.
+**1. What is Dynamic Typing in Python?**   
+Dynamic typing in Python refers to the ability of variables to hold values of any data type, and for their data type to be determined at runtime.   
+This means that you do not need to explicitly declare the data type of a variable when you define it.  
+Instead, the data type is inferred based on the value assigned to the variable.  
+For example:
+```python
+x = 5       # x is an integer
+x = "hello" # now x is a string
+x = [1, 2, 3] # now x is a list
+```
+Here, x is initially assigned an integer value, then a string value, and finally a list value.  
+Python adjusts the data type of x accordingly without requiring explicit type declarations.
+
+Dynamic typing offers flexibility and simplicity, making Python code concise and easier to read and write.  
+However, it also requires careful attention to variable types to avoid unexpected behavior.
+ 
+**2. Can you explain the difference between static and dynamic typing, using Python as an example for dynamic typing?**
+1. **Static Typing:**  
+In statically-typed languages, such as C++, Java, or TypeScript, variables are required to be explicitly declared with their data types.  
+Once a variable is declared with a certain data type, it cannot hold values of a different data type.  
+Type checking typically occurs at compile-time, ensuring that only values of the declared type can be assigned to variables.    
+Example in Java:
+```java
+int x = 5;       // x is an integer
+x = "hello";     // Error: Type mismatch
+```
+2. **Dynamic Typing (Python):**  
+In dynamically-typed languages, such as Python, variables are not required to be explicitly declared with their data types.  
+Variables can hold values of any data type, and their data type is determined at runtime based on the value assigned to them.  
+Type checking typically occurs at runtime, allowing for flexibility in variable assignments.  
+Example in Python:
+```python
+x = 5       # x is an integer
+x = "hello" # now x is a string
+```
+Key Differences:  
+**Flexibility:** Dynamic typing offers greater flexibility because variables can change their data types during runtime, allowing for more dynamic programming.  
+**Ease of Use:** Dynamic typing can make code shorter and easier to write, as you don't need to explicitly declare variable types.  
+**Readability:** While dynamic typing can make code concise, it can also make it less readable if not used carefully, as the data type of a variable may not be immediately apparent from its declaration.  
+**Type Safety:** Static typing provides better type safety because type checking occurs at compile-time, whereas in dynamic typing, errors related to incorrect types might only surface during runtime.  
+  
+
+**3. How Does Python Handle Different Data Types During Arithmetic Operations?**  
+Python's approach to handling different data types during arithmetic operations depends on the specific data types involved.  
+Here's a general overview:
+
+**Numeric Types (int, float, complex):**  
+Arithmetic operations involving numeric types are straightforward and follow the usual mathematical rules.  
+Python automatically promotes operands to the most "complex" type involved in the operation to preserve precision.  
+```python
+x = 5 + 2.0    # x will be a float (7.0)
+y = 3 * 4      # y will be an integer (12)
+z = 2 + 3j     # z will be a complex number
+```
+**String Concatenation:**  
+The + operator performs concatenation when applied to strings.  
+Other arithmetic operations are not defined for strings.  
+```python
+s1 = "Hello "
+s2 = "World"
+s3 = s1 + s2   # s3 will be "Hello World"
+```
+**Mixed Types:**  
+Python tries to coerce operands into compatible types for arithmetic operations.
+```python
+x = 5 + 2.0    # x will be a float (7.0)
+y = "Hello " + str(5)   # y will be "Hello 5"
+```
+**Error Handling:**  
+Python raises a TypeError if the operation is not defined for the given types.
+```python
+result = "Hello" / 2   # TypeError: unsupported operand type(s) for /: 'str' and 'int'
+```
+**Special Cases:**
+Division (`/`) always returns a float, regardless of the types of the operands.  
+Integer division (`//`) returns the floor division result, which is always an integer, even if the operands are floats.  
+The % operator returns the remainder of division (modulo operation).  
+Overall, Python is designed to handle different data types in a flexible manner, automatically promoting types as needed while still providing predictable behavior.  
+However, it's essential to understand the specific behavior of each operation and the types involved to avoid unexpected results.
+
+**4. Give an example of implicit type conversion in Python during an arithmetic operation.**
+```python
+x = 5     # x is an integer
+y = 2.5   # y is a float
+
+result = x + y
+
+print(result)  # Output: 7.5
+```
+In this example, x is an integer (5) and y is a float (2.5).  
+During the addition operation (x + y), Python implicitly converts the integer x to a float before performing the addition.  
+This is because Python promotes operands to the most "complex" type involved in the operation to preserve precision.  
+Therefore, x is converted to 5.0 before being added to y, resulting in the float 7.5.
+
+**5. What will happen if you try to concatenate string with integer directly without type conversion?**  
+If you try to concatenate a string with an integer directly without type conversion, Python will raise a `TypeError` because string concatenation is not defined for a string and an integer.  
+Here's an example:
+```python
+s = "Hello"
+n = 5
+
+result = s + n  # Attempting to concatenate a string with an integer
+
+# This line will raise a TypeError
+print(result)
+```
+Attempting to run this code will result in a TypeError:
+
+```python
+TypeError: can only concatenate str (not "int") to str
+```
+To concatenate a string with an integer, you need to explicitly convert the integer to a string using the str() function:
+
+```python
+s = "Hello"
+n = 5
+
+result = s + str(n)  # Convert the integer to a string before concatenation
+
+print(result)  # Output: Hello5
+```
+Now, n is converted to the string "5" before being concatenated with the string "Hello", resulting in the string "Hello5".
+
+**6. What Happens When You Perform Integer Division with Zero in Python?**  
+In Python, performing integer division by zero raises a `ZeroDivisionError`.  
+This error occurs when you attempt to divide an integer by zero, which is mathematically undefined.  
+```python
+result = 5 // 0  # Attempting integer division by zero
+
+# This line will raise a ZeroDivisionError
+print(result)
+```
+Attempting to run this code will result in a ZeroDivisionError:
+```
+ZeroDivisionError: integer division or modulo by zero
+```
+Python does not allow division by zero in any form, whether it's integer division (`//`), floating-point division (`/`), or modulo operation (`%`).  
+It's important to handle potential division by zero errors in your code to prevent unexpected crashes.  
+
+**7. Explain the Use of the type() and isinstance() Functions.**  
+In Python, the type() and isinstance() functions are commonly used for type checking and introspection.  
+`type():`  
+The `type()` function returns the type of an object.  
+Syntax: `type(object)`
+Example:
+```python
+x = 5
+print(type(x))  # Output: <class 'int'>
+```
+
+`isinstance():`  
+The `isinstance()` function checks if an object is an instance of a specified class or its subclasses.  
+Syntax: `isinstance(object, classinfo)`
+```python
+x = 5
+print(isinstance(x, int))  # Output: True
+print(isinstance(x, float))  # Output: False
+```
+Use Cases:
+
+**Type Checking:**
+You can use `type()` to check the type of a single object.
+You can use `isinstance()` to check if an object is an instance of a specific class or its subclasses, which is useful for checking inheritance relationships.  
+**Conditional Execution:**  
+isinstance() is often used within conditional statements to execute code based on the type of an object.  
+**Loop Iteration:**  
+isinstance() is also useful when iterating over a collection of objects and performing different actions based on their types.  
+**Dynamic Behavior:**  
+Both functions are commonly used in scenarios where the behavior of a program needs to adapt dynamically based on the types of objects being processed.  
+
+Note:
+While these functions can be helpful, it's often considered more Pythonic to rely on duck typing (i.e., behavior over explicit type) whenever possible.  
+Overuse of type checking may indicate a design issue in the code and could lead to less flexible and more complex implementations.
 
 ## Coding Assignments
 1. Simple Calculator:
